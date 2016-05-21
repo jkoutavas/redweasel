@@ -11,6 +11,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+#include "ImageEditorComponent.h"
 
 //==============================================================================
 /*
@@ -29,6 +30,9 @@ public:
 
 private:
     //==============================================================================
+    
+    ImageEditorComponent imageEditor;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 

@@ -5,10 +5,17 @@
               jucerVersion="4.2.1">
   <MAINGROUP id="DN0ffd" name="RedWeasel">
     <GROUP id="{B011C6AA-FEED-1723-A83A-86593296E8C9}" name="Source">
+      <FILE id="NfrMDX" name="ImageEditorComponent.cpp" compile="1" resource="0"
+            file="Source/ImageEditorComponent.cpp"/>
+      <FILE id="NplGrV" name="ImageEditorComponent.h" compile="0" resource="0"
+            file="Source/ImageEditorComponent.h"/>
       <FILE id="XmdhDs" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="sbelH6" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="lE36FC" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+    <GROUP id="{F2C1274E-0D95-D30D-8E64-BF6C6436513F}" name="Resources">
+      <FILE id="qlk2Bd" name="RedWeasel.jpeg" compile="0" resource="1" file="Resources/RedWeasel.jpeg"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
