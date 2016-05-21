@@ -72,19 +72,19 @@ ImageEditorComponent::ImageEditorComponent ()
     greenLanel->setColour (TextEditor::textColourId, Colours::black);
     greenLanel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (blueBlue = new Label ("new label",
-                                             TRANS("Blue\n")));
-    blueBlue->setFont (Font (15.00f, Font::plain));
-    blueBlue->setJustificationType (Justification::centredRight);
-    blueBlue->setEditable (false, false, false);
-    blueBlue->setColour (TextEditor::textColourId, Colours::black);
-    blueBlue->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    addAndMakeVisible (blueLabel = new Label ("blueLabel",
+                                              TRANS("Blue\n")));
+    blueLabel->setFont (Font (15.00f, Font::plain));
+    blueLabel->setJustificationType (Justification::centredRight);
+    blueLabel->setEditable (false, false, false);
+    blueLabel->setColour (TextEditor::textColourId, Colours::black);
+    blueLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
 
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (1030, 450);
+    setSize (1030, 490);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -107,7 +107,7 @@ ImageEditorComponent::~ImageEditorComponent()
     afterImageView = nullptr;
     redLabel = nullptr;
     greenLanel = nullptr;
-    blueBlue = nullptr;
+    blueLabel = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -138,7 +138,7 @@ void ImageEditorComponent::resized()
     afterImageView->setBounds (520, 12, 500, 300);
     redLabel->setBounds (522, 330, 38, 24);
     greenLanel->setBounds (505, 368, 54, 24);
-    blueBlue->setBounds (521, 408, 38, 24);
+    blueLabel->setBounds (521, 408, 38, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -257,7 +257,7 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="Green" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="34"/>
-  <LABEL name="new label" id="9f5edce0b62335fe" memberName="blueBlue"
+  <LABEL name="blueLabel" id="9f5edce0b62335fe" memberName="blueLabel"
          virtualName="" explicitFocusOrder="0" pos="521 408 38 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Blue&#10;" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"

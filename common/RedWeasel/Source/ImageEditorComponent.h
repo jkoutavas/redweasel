@@ -65,7 +65,7 @@ private:
     ScopedPointer<ImageComponent> afterImageView;
     ScopedPointer<Label> redLabel;
     ScopedPointer<Label> greenLanel;
-    ScopedPointer<Label> blueBlue;
+    ScopedPointer<Label> blueLabel;
 
 
     //==============================================================================
