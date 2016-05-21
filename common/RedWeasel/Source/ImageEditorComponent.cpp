@@ -175,35 +175,33 @@ void ImageEditorComponent::sliderValueChanged (Slider* sliderThatWasMoved)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-static uint8 adjust(uint8 color, int8 adjust)
+static uint8 adjust(uint8 color, double percent)
 {
-    // values are from -50 to 50 with 0 being normal
-    // 0 results in no change
-    // -50 results in -50%
-    // +50 results in +50%
-    const double percent = adjust/100.0f;
-    int result = color + 255.0 * percent;
-    if( result < 0 ) {
-        result = 0;
-    } else if( result > 255 ) {
-        result = 255;
-    }
+    const int result = color + 255 * percent;
 
-    return result;
+    return std::max(std::min(result,255),0);
 }
 
 void
 ImageEditorComponent::adjustRGB()
 {
+    // values are from -50 to 50 with 0 being normal
+    // 0 results in no change
+    // -50 results in -50%
+    // +50 results in +50%
+    const double redPercent = redSlider->getValue()/100.0;
+    const double greenPercent = greenSlider->getValue()/100.0;
+    const double bluePercent = blueSlider->getValue()/100.0;
+
     Image afterImage = beforeImageView->getImage();
     afterImage.duplicateIfShared();
     for( int x=0; x<afterImage.getWidth(); ++x ) {
         for( int y=0; y<afterImage.getHeight(); ++y )
         {
-            Colour pixel(afterImage.getPixelAt(x, y));
-            afterImage.setPixelAt(x, y, Colour(adjust(pixel.getRed(),redSlider->getValue()),
-                                               adjust(pixel.getGreen(),greenSlider->getValue()),
-                                               adjust(pixel.getBlue(),blueSlider->getValue())));
+            const Colour pixel(afterImage.getPixelAt(x, y));
+            afterImage.setPixelAt(x, y, Colour(adjust(pixel.getRed(), redPercent),
+                                               adjust(pixel.getGreen(), greenPercent),
+                                               adjust(pixel.getBlue(), bluePercent)));
         }
     }
     afterImageView->setImage(afterImage);
