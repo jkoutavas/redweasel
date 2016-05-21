@@ -1,0 +1,3 @@
+[submodule "common/juce"]
+	path = common/juce
+	url = https://github.com/julianstorer/JUCE.git
