@@ -8,12 +8,13 @@
   ==============================================================================
 */
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "ImageEditorModel.h"
 #include "MainComponent.h"
 
-
 //==============================================================================
-class RedWeaselApplication  : public JUCEApplication
+class RedWeaselApplication
+    : public JUCEApplication
+    , public Value::Listener
 {
 public:
     //==============================================================================
@@ -29,6 +30,8 @@ public:
         // This method is where you should put your application's initialisation code..
 
         mainWindow = new MainWindow (getApplicationName());
+        
+        ImageEditorModel::getInstance()->beforeImageFullPathName.addListener(this);
     }
 
     void shutdown() override
@@ -36,6 +39,8 @@ public:
         // Add your application's shutdown code here..
 
         mainWindow = nullptr; // (deletes our window)
+
+        ImageEditorModel::deleteInstance();
     }
 
     //==============================================================================
@@ -53,6 +58,15 @@ public:
         // the other instance's command-line arguments were.
     }
 
+    void valueChanged (Value& value) override
+    {
+        if( value.refersToSameSourceAs(ImageEditorModel::getInstance()->beforeImageFullPathName) )
+        {
+            File f(value.getValue());
+            mainWindow->setName(f.getFileName());
+        }
+    }
+    
     //==============================================================================
     /*
         This class implements the desktop window that contains an instance of
@@ -66,7 +80,7 @@ public:
                                                     DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (new MainContentComponent(this), true);
+            setContentOwned (new MainContentComponent, true);
 
             centreWithSize (getWidth(), getHeight());
             setVisible (true);

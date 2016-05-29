@@ -8,8 +8,9 @@
   ==============================================================================
 */
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "BeforeImageComponent.h"
+
+#include "ImageEditorModel.h"
 
 //==============================================================================
 BeforeImageComponent::BeforeImageComponent()
@@ -77,6 +78,6 @@ BeforeImageComponent::fileDragExit (const StringArray& files)
 void
 BeforeImageComponent::filesDropped (const StringArray& files, int x, int y)
 {
-    droppedFileName = files[0];
+    ImageEditorModel::getInstance()->beforeImageFullPathName = files[0];
 }
 

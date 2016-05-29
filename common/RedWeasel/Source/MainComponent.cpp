@@ -8,6 +8,8 @@
 
 #include "MainComponent.h"
 
+#include "ImageEditorModel.h"
+
 enum {
     eAboutClosedCmdID = 1000,
 	eAboutOpenCmdID,
@@ -19,8 +21,7 @@ static String aboutMenuItemTitle()
     return "About " + JUCEApplication::getInstance()->getApplicationName() + "...";
 }
 
-MainContentComponent::MainContentComponent(DocumentWindow *documentWindow)
-    : imageEditor(documentWindow)
+MainContentComponent::MainContentComponent()
 {
     appCommandManager.registerAllCommandsForTarget(this);
     appCommandManager.setFirstCommandTarget(this);
@@ -163,6 +164,6 @@ MainContentComponent::openImageFile()
 		"*.png,*.jpg,*.jpeg");
 
     if( fc.browseForFileToOpen() ) {
-        imageEditor.loadImageFile(fc.getResult());
+        ImageEditorModel::getInstance()->beforeImageFullPathName = fc.getResult().getFullPathName();
     }
 }

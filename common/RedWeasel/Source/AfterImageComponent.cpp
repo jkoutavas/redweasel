@@ -8,8 +8,9 @@
   ==============================================================================
 */
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "AfterImageComponent.h"
+
+#include "ImageEditorModel.h"
 
 //==============================================================================
 AfterImageComponent::AfterImageComponent()
@@ -53,6 +54,7 @@ AfterImageComponent::resized()
 void
 AfterImageComponent::mouseDown(const MouseEvent& e)
 {
+    const File sourceFile(ImageEditorModel::getInstance()->beforeImageFullPathName.getValue());
     ImageFileFormat* format = ImageFileFormat::findImageFormatForFileExtension(sourceFile);
     if( format )
     {

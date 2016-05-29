@@ -22,13 +22,13 @@
 
 #include "ImageEditorComponent.h"
 
+#include "ImageEditorModel.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 //[/MiscUserDefs]
 
 //==============================================================================
-ImageEditorComponent::ImageEditorComponent (DocumentWindow *documentWindow_)
-    : documentWindow(documentWindow_)
+ImageEditorComponent::ImageEditorComponent ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
@@ -93,7 +93,7 @@ ImageEditorComponent::ImageEditorComponent (DocumentWindow *documentWindow_)
 //    beforeImageView->setImage(ImageCache::getFromMemory(BinaryData::RedWeasel_jpeg, BinaryData::RedWeasel_jpegSize));
     adjustRGB();
 
-    beforeImageView->droppedFileName.addListener(this);
+    ImageEditorModel::getInstance()->beforeImageFullPathName.addListener(this);
 
     //[/Constructor]
 }
@@ -224,15 +224,13 @@ void
 ImageEditorComponent::loadImageFile(const File& file)
 {
     beforeImageView->setImage(ImageFileFormat::loadFrom(file));
-    afterImageView->sourceFile = file;
-    documentWindow->setName(file.getFileName());
     adjustRGB();
 }
 
 void
 ImageEditorComponent::valueChanged(Value &value)
 {
-    if (value.refersToSameSourceAs(beforeImageView->droppedFileName) )
+    if( value.refersToSameSourceAs(ImageEditorModel::getInstance()->beforeImageFullPathName) )
     {
         File f(value.getValue());
         loadImageFile(f);

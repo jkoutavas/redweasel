@@ -42,7 +42,7 @@ class ImageEditorComponent  : public Component,
 {
 public:
     //==============================================================================
-    ImageEditorComponent (DocumentWindow *documentWindow);
+    ImageEditorComponent ();
     ~ImageEditorComponent();
 
     //==============================================================================
@@ -63,7 +63,6 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    DocumentWindow *documentWindow;
     //[/UserVariables]
 
     //==============================================================================

@@ -40,9 +40,6 @@ public: // FileDragAndDropTarget
     virtual void fileDragEnter (const StringArray& files, int x, int y);
     virtual void fileDragExit (const StringArray& files);
     virtual void filesDropped (const StringArray& files, int x, int y);
-    
-public:
-    Value droppedFileName;
 
 private:
     bool dragEntered;

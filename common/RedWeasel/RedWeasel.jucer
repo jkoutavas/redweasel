@@ -17,6 +17,10 @@
             file="Source/ImageEditorComponent.cpp"/>
       <FILE id="NplGrV" name="ImageEditorComponent.h" compile="0" resource="0"
             file="Source/ImageEditorComponent.h"/>
+      <FILE id="G1p335" name="ImageEditorModel.cpp" compile="1" resource="0"
+            file="Source/ImageEditorModel.cpp"/>
+      <FILE id="iluggR" name="ImageEditorModel.h" compile="0" resource="0"
+            file="Source/ImageEditorModel.h"/>
       <FILE id="XmdhDs" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="sbelH6" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>

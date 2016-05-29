@@ -19,7 +19,7 @@ class MainContentComponent
 	, private MenuBarModel
 {
 public:
-    MainContentComponent(DocumentWindow *documentWindow);
+    MainContentComponent();
     ~MainContentComponent();
 
 public: // Component

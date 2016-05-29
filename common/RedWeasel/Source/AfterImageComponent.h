@@ -35,9 +35,6 @@ public: // Component
 public: // DragAndDropContainer
     bool shouldDropFilesWhenDraggedExternally (const DragAndDropTarget::SourceDetails& sourceDetails,
                                                        StringArray& files, bool& canMoveFiles) override;
-    
-public: // our stuff
-    File sourceFile;
 
 private:
     File tempSavedFile;
