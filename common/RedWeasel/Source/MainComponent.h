@@ -13,28 +13,38 @@
 
 #include "ImageEditorComponent.h"
 
-//==============================================================================
-/*
-    This component lives inside our window, and this is where you should put all
-    your controls and content.
-*/
-class MainContentComponent   : public Component
+class MainContentComponent
+    : public Component
+    , private ApplicationCommandTarget
+	, private MenuBarModel
 {
 public:
-    //==============================================================================
     MainContentComponent();
     ~MainContentComponent();
 
-    void paint (Graphics&) override;
+public: // Component
     void resized() override;
 
-private:
-    //==============================================================================
+private: // ApplicationCommandTarget
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    ApplicationCommandTarget* getNextCommandTarget() override;
+    bool perform(const InvocationInfo& info) override;
     
+private: // MenuBarModel
+    StringArray getMenuBarNames() override;
+    PopupMenu getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
+    void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
+
+private: // our stuff
+    void openAboutDialog();
+    void openImageFile();
+    
+private:
+    ApplicationCommandManager appCommandManager;
     ImageEditorComponent imageEditor;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
-
 
 #endif  // MAINCOMPONENT_H_INCLUDED
