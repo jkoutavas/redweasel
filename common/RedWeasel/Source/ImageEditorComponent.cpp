@@ -89,7 +89,7 @@ ImageEditorComponent::ImageEditorComponent ()
 
     //[Constructor] You can add your own custom stuff here..
 
-    beforeImageView->setImage(ImageCache::getFromMemory(BinaryData::RedWeasel_jpeg, BinaryData::RedWeasel_jpegSize));
+//    beforeImageView->setImage(ImageCache::getFromMemory(BinaryData::RedWeasel_jpeg, BinaryData::RedWeasel_jpegSize));
     adjustRGB();
 
     //[/Constructor]
@@ -205,6 +205,13 @@ ImageEditorComponent::adjustRGB()
         }
     }
     afterImageView->setImage(afterImage);
+}
+
+void
+ImageEditorComponent::loadImageFile(const File& file)
+{
+    beforeImageView->setImage(ImageFileFormat::loadFrom(file));
+    adjustRGB();
 }
 
 //[/MiscUserCode]
