@@ -22,6 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "AfterImageComponent.h"
 #include "BeforeImageComponent.h"
 //[/Headers]
 
@@ -41,7 +42,7 @@ class ImageEditorComponent  : public Component,
 {
 public:
     //==============================================================================
-    ImageEditorComponent ();
+    ImageEditorComponent (DocumentWindow *documentWindow);
     ~ImageEditorComponent();
 
     //==============================================================================
@@ -62,6 +63,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    DocumentWindow *documentWindow;
     //[/UserVariables]
 
     //==============================================================================
@@ -69,7 +71,7 @@ private:
     ScopedPointer<Slider> greenSlider;
     ScopedPointer<Slider> blueSlider;
     ScopedPointer<BeforeImageComponent> beforeImageView;
-    ScopedPointer<ImageComponent> afterImageView;
+    ScopedPointer<AfterImageComponent> afterImageView;
     ScopedPointer<Label> redLabel;
     ScopedPointer<Label> greenLanel;
     ScopedPointer<Label> blueLabel;

@@ -29,15 +29,15 @@ void BeforeImageComponent::paint (Graphics& g)
         return;
     }
     
-    g.fillAll (Colours::white);   // clear the background
+    g.fillAll (Colours::white);
 
-    g.setColour(dragEntered ? Colours::green : Colours::grey);
+    g.setColour(dragEntered ? Colours::green : Colours::lightgrey);
     g.drawRect (getLocalBounds(), dragEntered ? 2 : 1);
 
     g.setColour (Colours::lightblue);
     g.setFont (23.0f);
     g.drawText ("Open an image file or drop image here", getLocalBounds(),
-                Justification::centred, true);   // draw some placeholder text
+                Justification::centred, true);
 }
 
 void BeforeImageComponent::resized()

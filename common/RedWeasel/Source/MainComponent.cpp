@@ -19,7 +19,8 @@ static String aboutMenuItemTitle()
     return "About " + JUCEApplication::getInstance()->getApplicationName() + "...";
 }
 
-MainContentComponent::MainContentComponent()
+MainContentComponent::MainContentComponent(DocumentWindow *documentWindow)
+    : imageEditor(documentWindow)
 {
     appCommandManager.registerAllCommandsForTarget(this);
     appCommandManager.setFirstCommandTarget(this);

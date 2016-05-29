@@ -19,7 +19,7 @@ class MainContentComponent
 	, private MenuBarModel
 {
 public:
-    MainContentComponent();
+    MainContentComponent(DocumentWindow *documentWindow);
     ~MainContentComponent();
 
 public: // Component
@@ -42,6 +42,7 @@ private: // our stuff
     
 private:
     ApplicationCommandManager appCommandManager;
+    DocumentWindow *documentWindow;
     ImageEditorComponent imageEditor;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)

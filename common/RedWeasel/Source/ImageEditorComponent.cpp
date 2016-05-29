@@ -27,7 +27,8 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ImageEditorComponent::ImageEditorComponent ()
+ImageEditorComponent::ImageEditorComponent (DocumentWindow *documentWindow_)
+    : documentWindow(documentWindow_)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
@@ -53,7 +54,7 @@ ImageEditorComponent::ImageEditorComponent ()
     addAndMakeVisible (beforeImageView = new BeforeImageComponent());
     beforeImageView->setName ("beforeImageView");
 
-    addAndMakeVisible (afterImageView = new ImageComponent());
+    addAndMakeVisible (afterImageView = new AfterImageComponent());
     afterImageView->setName ("afterImageView");
 
     addAndMakeVisible (redLabel = new Label ("redLabel",
@@ -187,6 +188,16 @@ static uint8 adjust(uint8 color, double percent)
 void
 ImageEditorComponent::adjustRGB()
 {
+    const bool haveImage = beforeImageView->getImage().isValid();
+
+    redSlider->setEnabled(haveImage);
+    greenSlider->setEnabled(haveImage);
+    blueSlider->setEnabled(haveImage);
+    
+    if( !haveImage ) {
+        return;
+    }
+    
     // values are from -50 to 50 with 0 being normal
     // 0 results in no change
     // -50 results in -50%
@@ -213,6 +224,8 @@ void
 ImageEditorComponent::loadImageFile(const File& file)
 {
     beforeImageView->setImage(ImageFileFormat::loadFrom(file));
+    afterImageView->sourceFile = file;
+    documentWindow->setName(file.getFileName());
     adjustRGB();
 }
 
@@ -262,7 +275,7 @@ BEGIN_JUCER_METADATA
                     virtualName="" explicitFocusOrder="0" pos="8 12 500 300" class="BeforeImageComponent"
                     params=""/>
   <GENERICCOMPONENT name="afterImageView" id="3df6bb30ea2d0e1e" memberName="afterImageView"
-                    virtualName="" explicitFocusOrder="0" pos="520 12 500 300" class="ImageComponent"
+                    virtualName="" explicitFocusOrder="0" pos="520 12 500 300" class="AfterImageComponent"
                     params=""/>
   <LABEL name="redLabel" id="935403b992fdd1" memberName="redLabel" virtualName=""
          explicitFocusOrder="0" pos="522 330 38 24" edTextCol="ff000000"
