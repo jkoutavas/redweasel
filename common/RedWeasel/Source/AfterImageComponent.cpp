@@ -64,10 +64,13 @@ AfterImageComponent::mouseDown(const MouseEvent& e)
             + sourceFile.getFileExtension();
             
         tempSavedFile = File(filename);
+        
+        // the temp file shouldn't exist, but let's just be sure
         if( tempSavedFile.exists() ) {
             tempSavedFile.deleteFile();
         }
         
+        // create a temporary image file for the drag
         FileOutputStream stream(tempSavedFile);
         format->writeImageToStream(getImage(), stream);
         startDragging("image drag", this);
@@ -80,9 +83,18 @@ AfterImageComponent::mouseDrag(const MouseEvent& e)
     StringArray filesArray;
     
     filesArray.add(tempSavedFile.getFullPathName());
-    if( performExternalDragDropOfFiles(filesArray, true) )
-    {
+    performExternalDragDropOfFiles(filesArray, true);
+}
+
+void
+AfterImageComponent::mouseUp(const MouseEvent& e)
+{
+    // the temp file is now likely copied-out to the file system. Delete it.
+    if( tempSavedFile.exists() ) {
+        tempSavedFile.deleteFile();
     }
+    
+    tempSavedFile = juce::var::null;
 }
 
 #if 0
