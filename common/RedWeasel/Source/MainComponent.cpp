@@ -142,6 +142,10 @@ MainContentComponent::menuItemSelected(int menuItemID, int topLevelMenuIndex)
 }
 
 #if 0
+#pragma mark - MessageListener
+#endif
+
+#if 0
 #pragma mark - our stuff
 #endif
 

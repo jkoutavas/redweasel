@@ -50,7 +50,7 @@ ImageEditorComponent::ImageEditorComponent ()
     blueSlider->setTextBoxStyle (Slider::TextBoxLeft, false, 40, 20);
     blueSlider->addListener (this);
 
-    addAndMakeVisible (beforeImageView = new ImageComponent());
+    addAndMakeVisible (beforeImageView = new BeforeImageComponent());
     beforeImageView->setName ("beforeImageView");
 
     addAndMakeVisible (afterImageView = new ImageComponent());
@@ -91,6 +91,8 @@ ImageEditorComponent::ImageEditorComponent ()
 
 //    beforeImageView->setImage(ImageCache::getFromMemory(BinaryData::RedWeasel_jpeg, BinaryData::RedWeasel_jpegSize));
     adjustRGB();
+
+    beforeImageView->droppedFileName.addListener(this);
 
     //[/Constructor]
 }
@@ -214,6 +216,16 @@ ImageEditorComponent::loadImageFile(const File& file)
     adjustRGB();
 }
 
+void
+ImageEditorComponent::valueChanged(Value &value)
+{
+    if (value.refersToSameSourceAs(beforeImageView->droppedFileName) )
+    {
+        File f(value.getValue());
+        loadImageFile(f);
+    }
+}
+
 //[/MiscUserCode]
 
 
@@ -227,9 +239,9 @@ ImageEditorComponent::loadImageFile(const File& file)
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ImageEditorComponent" componentName=""
-                 parentClasses="public Component" constructorParams="" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="1030" initialHeight="490">
+                 parentClasses="public Component, public Value::Listener" constructorParams=""
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="1030" initialHeight="490">
   <BACKGROUND backgroundColour="ffffffff"/>
   <SLIDER name="redSlider" id="bdb7303b5032438b" memberName="redSlider"
           virtualName="" explicitFocusOrder="0" pos="568 329 450 24" min="-50"
@@ -247,7 +259,7 @@ BEGIN_JUCER_METADATA
           textBoxEditable="1" textBoxWidth="40" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <GENERICCOMPONENT name="beforeImageView" id="fae0b48cffc5c30a" memberName="beforeImageView"
-                    virtualName="" explicitFocusOrder="0" pos="8 12 500 300" class="ImageComponent"
+                    virtualName="" explicitFocusOrder="0" pos="8 12 500 300" class="BeforeImageComponent"
                     params=""/>
   <GENERICCOMPONENT name="afterImageView" id="3df6bb30ea2d0e1e" memberName="afterImageView"
                     virtualName="" explicitFocusOrder="0" pos="520 12 500 300" class="ImageComponent"

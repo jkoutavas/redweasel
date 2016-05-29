@@ -5,6 +5,10 @@
               jucerVersion="4.2.1">
   <MAINGROUP id="DN0ffd" name="RedWeasel">
     <GROUP id="{B011C6AA-FEED-1723-A83A-86593296E8C9}" name="Source">
+      <FILE id="PWoD42" name="BeforeImageComponent.cpp" compile="1" resource="0"
+            file="Source/BeforeImageComponent.cpp"/>
+      <FILE id="UQsnT1" name="BeforeImageComponent.h" compile="0" resource="0"
+            file="Source/BeforeImageComponent.h"/>
       <FILE id="NfrMDX" name="ImageEditorComponent.cpp" compile="1" resource="0"
             file="Source/ImageEditorComponent.cpp"/>
       <FILE id="NplGrV" name="ImageEditorComponent.h" compile="0" resource="0"
