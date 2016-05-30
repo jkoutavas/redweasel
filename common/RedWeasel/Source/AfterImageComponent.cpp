@@ -55,26 +55,14 @@ void
 AfterImageComponent::mouseDown(const MouseEvent& e)
 {
     const File sourceFile(ImageEditorModel::getInstance()->beforeImageFullPathName.getValue());
-    ImageFileFormat* format = ImageFileFormat::findImageFormatForFileExtension(sourceFile);
-    if( format )
+    File tempDir(File::getSpecialLocation(File::tempDirectory));
+    String filename = tempDir.getFullPathName() + "/" + ImageEditorModel::getInstance()->formSaveFileName();
+    
+    tempSavedFile = File(filename);
+    
+    if( ImageEditorModel::getInstance()->saveImageFile(tempSavedFile, getImage()) )
     {
-        File tempDir(File::getSpecialLocation(File::tempDirectory));
-        String filename = tempDir.getFullPathName()
-            + "/"
-            + sourceFile.getFileNameWithoutExtension()
-            + "_adjusted"
-            + sourceFile.getFileExtension();
-            
-        tempSavedFile = File(filename);
-        
-        // the temp file shouldn't exist, but let's just be sure
-        if( tempSavedFile.exists() ) {
-            tempSavedFile.deleteFile();
-        }
-        
-        // create a temporary image file for the drag
-        FileOutputStream stream(tempSavedFile);
-        format->writeImageToStream(getImage(), stream);
+        // start the drag activity
         startDragging("image drag", this);
     }
 }

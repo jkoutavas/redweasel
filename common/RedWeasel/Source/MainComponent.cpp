@@ -13,7 +13,8 @@
 enum {
     eAboutClosedCmdID = 1000,
 	eAboutOpenCmdID,
-    eFileOpenCmdID
+    eFileOpenCmdID,
+    eFileSaveAsCmdID
 };
 
 static String aboutMenuItemTitle()
@@ -33,6 +34,8 @@ MainContentComponent::MainContentComponent()
 #endif
     
     addAndMakeVisible(imageEditor);
+
+    ImageEditorModel::getInstance()->beforeImageFullPathName.addListener(this);
 
     setSize(1030, 450);
 }
@@ -67,7 +70,8 @@ MainContentComponent::getAllCommands(Array<CommandID>& commands)
     // this returns the set of all commands that this target can perform
     const CommandID ids[] = {
         eAboutOpenCmdID,
-        eFileOpenCmdID
+        eFileOpenCmdID,
+        eFileSaveAsCmdID
 	};
 
     commands.addArray(ids, numElementsInArray(ids));
@@ -86,6 +90,11 @@ MainContentComponent::getCommandInfo(const CommandID commandID, ApplicationComma
         
         case eFileOpenCmdID:
             result.setInfo("Open...", String::empty, category, 0);
+        break;
+        
+        case eFileSaveAsCmdID:
+            result.setInfo("Save As...", String::empty, category, 0);
+			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != String::empty);
         break;
     }
 }
@@ -121,8 +130,10 @@ MainContentComponent::getMenuForIndex(int /*topLevelMenuIndex*/, const String& m
 {
     PopupMenu menu;
 
-    if( menuName == "File" ) {
+    if( menuName == "File" )
+    {
         menu.addCommandItem(&appCommandManager, eFileOpenCmdID);
+        menu.addCommandItem(&appCommandManager, eFileSaveAsCmdID);
     }
     
     return menu;
@@ -140,12 +151,24 @@ MainContentComponent::menuItemSelected(int menuItemID, int topLevelMenuIndex)
         case eFileOpenCmdID:
             openImageFile();
         break;
+        
+        case eFileSaveAsCmdID:
+            saveImageFile();
+        break;
     }
 }
 
 #if 0
-#pragma mark - MessageListener
+#pragma mark - Value::Listener
 #endif
+
+void
+MainContentComponent::valueChanged(Value &value)
+{
+    if( value.refersToSameSourceAs(ImageEditorModel::getInstance()->beforeImageFullPathName) ) {
+        menuItemsChanged(); // light-up the 'Save As...' menu item
+    }
+}
 
 #if 0
 #pragma mark - our stuff
@@ -159,11 +182,22 @@ MainContentComponent::openAboutDialog()
 void
 MainContentComponent::openImageFile()
 {
-    FileChooser fc("Choose an image",
+    FileChooser fc("Choose an image to adjust",
         File::getSpecialLocation(File::userPicturesDirectory),
 		"*.png,*.jpg,*.jpeg");
 
     if( fc.browseForFileToOpen() ) {
         ImageEditorModel::getInstance()->beforeImageFullPathName = fc.getResult().getFullPathName();
+    }
+}
+
+void
+MainContentComponent::saveImageFile()
+{
+    String filename = ImageEditorModel::getInstance()->formSaveFileFullPathName();
+    FileChooser fc("Save adjusted image", filename, "*.png,*.jpg,*.jpeg");
+
+    if( fc.browseForFileToSave(true) ) {
+        imageEditor.saveImageFile(fc.getResult());
     }
 }

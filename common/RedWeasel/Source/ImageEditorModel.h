@@ -22,6 +22,11 @@ public:
     ~ImageEditorModel() {;}
     
 public:
+    String formSaveFileName();
+    String formSaveFileFullPathName();
+    bool saveImageFile(const File& file, const Image& image);
+    
+public:
     Value beforeImageFullPathName;
 };
 

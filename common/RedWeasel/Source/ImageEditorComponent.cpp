@@ -228,6 +228,16 @@ ImageEditorComponent::loadImageFile(const File& file)
 }
 
 void
+ImageEditorComponent::saveImageFile(const File& file)
+{
+   ImageEditorModel::getInstance()->saveImageFile(file, afterImageView->getImage());
+}
+
+#if 0
+#pragma mark - Value::Listener
+#endif
+
+void
 ImageEditorComponent::valueChanged(Value &value)
 {
     if( value.refersToSameSourceAs(ImageEditorModel::getInstance()->beforeImageFullPathName) )

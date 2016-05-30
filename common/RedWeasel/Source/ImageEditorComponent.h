@@ -49,7 +49,8 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void adjustRGB();
     void loadImageFile(const File& file);
-
+    void saveImageFile(const File& file);
+    
     // Value::Listener
     void valueChanged(Value &value) override;
 

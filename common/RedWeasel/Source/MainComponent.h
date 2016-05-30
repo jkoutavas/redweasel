@@ -17,6 +17,7 @@ class MainContentComponent
     : public Component
     , private ApplicationCommandTarget
 	, private MenuBarModel
+    , public Value::Listener
 {
 public:
     MainContentComponent();
@@ -36,9 +37,13 @@ private: // MenuBarModel
     PopupMenu getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
     void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
 
+public: // Value::Listener
+    void valueChanged(Value &value) override;
+
 private: // our stuff
     void openAboutDialog();
     void openImageFile();
+    void saveImageFile();
     
 private:
     ApplicationCommandManager appCommandManager;
