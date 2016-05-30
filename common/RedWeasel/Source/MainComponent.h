@@ -9,8 +9,7 @@
 #ifndef MAINCOMPONENT_H_INCLUDED
 #define MAINCOMPONENT_H_INCLUDED
 
-#include "../JuceLibraryCode/JuceHeader.h"
-
+#include "HNDialogWindow.h"
 #include "ImageEditorComponent.h"
 
 class MainContentComponent
@@ -24,6 +23,7 @@ public:
     ~MainContentComponent();
 
 public: // Component
+	void handleCommandMessage(int commandId) override;
     void resized() override;
 
 private: // ApplicationCommandTarget
@@ -46,6 +46,7 @@ private: // our stuff
     void saveImageFile();
     
 private:
+    ScopedPointer<HNDialogWindow> aboutDialog;
     ApplicationCommandManager appCommandManager;
     DocumentWindow *documentWindow;
     ImageEditorComponent imageEditor;

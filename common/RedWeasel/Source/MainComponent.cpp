@@ -8,6 +8,7 @@
 
 #include "MainComponent.h"
 
+#include "AboutComponent.h"
 #include "ImageEditorModel.h"
 
 enum {
@@ -51,6 +52,17 @@ MainContentComponent::~MainContentComponent()
 #if 0
 #pragma mark - Component
 #endif
+
+void
+MainContentComponent::handleCommandMessage(int commandId)
+{
+    switch( commandId )
+    {
+        case eAboutClosedCmdID:
+            aboutDialog = nullptr;
+        break;
+    }
+}
 
 void
 MainContentComponent::resized()
@@ -177,6 +189,14 @@ MainContentComponent::valueChanged(Value &value)
 void
 MainContentComponent::openAboutDialog()
 {
+    if( aboutDialog )
+    {
+        aboutDialog->toFront(true);
+        return;
+    }
+    
+    aboutDialog = HNDialogWindow::showDialog("About "+JUCEApplication::getInstance()->getApplicationName(),
+        this, new AboutComponent, true, eAboutClosedCmdID);
 }
 
 void
