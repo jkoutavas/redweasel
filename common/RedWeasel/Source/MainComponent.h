@@ -50,6 +50,11 @@ private:
     ApplicationCommandManager appCommandManager;
     DocumentWindow *documentWindow;
     ImageEditorComponent imageEditor;
+
+#if JUCE_WINDOWS
+    ScopedPointer<MenuBarComponent>	menuBar;
+#endif
+
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

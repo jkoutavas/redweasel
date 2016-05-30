@@ -56,7 +56,9 @@ AfterImageComponent::mouseDown(const MouseEvent& e)
 {
     const File sourceFile(ImageEditorModel::getInstance()->beforeImageFullPathName.getValue());
     File tempDir(File::getSpecialLocation(File::tempDirectory));
-    String filename = tempDir.getFullPathName() + "/" + ImageEditorModel::getInstance()->formSaveFileName();
+    String filename = tempDir.getFullPathName()
+        + File::separatorString
+        + ImageEditorModel::getInstance()->formSaveFileName();
     
     tempSavedFile = File(filename);
     

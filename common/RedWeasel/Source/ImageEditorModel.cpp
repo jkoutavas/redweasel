@@ -29,7 +29,7 @@ ImageEditorModel::formSaveFileFullPathName()
     const File sourceFile(beforeImageFullPathName.getValue());
     const File parentDir = sourceFile.getParentDirectory();
     
-    return parentDir.getFullPathName() + "/" + formSaveFileName();
+    return parentDir.getFullPathName() + File::separatorString + formSaveFileName();
 }
 
 bool

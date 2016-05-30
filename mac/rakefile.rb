@@ -2,7 +2,7 @@
 #
 # Rakefile for building RedWeasel. 
 #
-# Usage 'rake [rev=<rev>] [nosign=nosign]' to build all.
+# Usage 'rake [rev=<rev>] [nosign=nosign]' to build the app.
 #
 # The optional 'rev' parameter sets the third digit of the version string.
 # The optional 'nosign' parameter, when present, will disable code signing 
@@ -36,6 +36,24 @@ class FailedBuildException < Exception;end
 # Top level tasks
 ###############################################################################
 
+task :default => [:build_app]
+
+desc "build the application."
+task :build_app  => [:jucer] do
+  puts "\nBuilding the release binary for the app v1.0.#{rev}"
+  testXcodeVersion
+  build_result = %x{xcodebuild -project ../common/RedWeasel/Builds/MacOSX/RedWeasel.xcodeproj -configuration Release}
+  if !build_result.match(/build succeeded/i)
+    puts "build failed with:"
+    puts build_result.lines.grep(/error/i)
+    throw FailedBuildException.new
+  end
+  if nosign.length == 0
+    sh "codesign -s \"Heynow Software\" ../common/RedWeasel/Builds/MacOSX/build/Release/RedWeasel.app"
+  end
+  puts "RedWeasel.app is available at ../common/RedWeasel/Builds/MacOSX/build/Release/RedWeasel.app"
+end
+
 desc "build Projucer"
 task :build_projucer do
   puts "\nBuilding Projucer"
@@ -45,6 +63,20 @@ task :build_projucer do
     puts "build failed with:"
     puts build_result.lines.grep(/error/i)
     throw FailedBuildException.new
+  end
+end
+
+desc "make the IDE projects for the application"
+task :jucer => [:build_projucer] do
+  puts "\nMaking the projects for the application."
+  Dir.chdir "../common/RedWeasel/" do
+    rm_rf "Builds"
+    sh "/usr/local/bin/xml ed -u \"JUCERPROJECT/@version\" -v \"1.0.#{rev}\" RedWeasel.jucer > tmp.jucer"
+    sh "../juce/extras/Projucer/Builds/MacOSX/build/Release/Projucer.app/Contents/MacOS/Projucer --resave tmp.jucer"
+    sh "/usr/libexec/PlistBuddy -c \"Add LSArchitecturePriority array\" Builds/MacOSX/Info.plist"
+    sh "/usr/libexec/PlistBuddy -c \"Add LSArchitecturePriority:0 string \'i386\'\" Builds/MacOSX/Info.plist"
+    sh "/usr/libexec/PlistBuddy -c \"Add LSArchitecturePriority:1 string \'x86_64\'\" Builds/MacOSX/Info.plist"
+    rm "tmp.jucer"
   end
 end
 

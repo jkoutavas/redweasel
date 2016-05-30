@@ -26,6 +26,7 @@ static String aboutMenuItemTitle()
 MainContentComponent::MainContentComponent()
 {
     appCommandManager.registerAllCommandsForTarget(this);
+    setApplicationCommandManagerToWatch(&appCommandManager);
     appCommandManager.setFirstCommandTarget(this);
 
 #if JUCE_MAC
@@ -33,12 +34,22 @@ MainContentComponent::MainContentComponent()
 	pop.addItem(eAboutOpenCmdID, aboutMenuItemTitle());
  	MenuBarModel::setMacMainMenu(this, &pop);
 #endif
-    
+
+#if JUCE_WINDOWS
+    menuBar = new MenuBarComponent(this);
+    addAndMakeVisible(menuBar);
+#endif
+
     addAndMakeVisible(imageEditor);
 
     ImageEditorModel::getInstance()->beforeImageFullPathName.addListener(this);
 
-    setSize(1030, 450);
+    int height = 450;
+#if JUCE_WINDOWS
+    height += 24;
+#endif
+
+    setSize(1030, height);
 }
 
 MainContentComponent::~MainContentComponent()
@@ -67,9 +78,10 @@ MainContentComponent::handleCommandMessage(int commandId)
 void
 MainContentComponent::resized()
 {
-    // This is called when the MainContentComponent is resized.
-    // If you add any child components, this is where you should
-    // update their positions.
+#if JUCE_WINDOWS
+    menuBar->setBounds(0, 0, getWidth(), 24);
+    imageEditor.setTopLeftPosition(imageEditor.getX(), imageEditor.getY() + 24);
+ #endif
 }
 
 #if 0
@@ -132,6 +144,10 @@ MainContentComponent::getMenuBarNames()
 {
 	StringArray names;
 
+#if JUCE_WINDOWS
+	names.add(JUCEApplication::getInstance()->getApplicationName());
+#endif
+
     names.add("File");
     
 	return names;
@@ -141,6 +157,12 @@ PopupMenu
 MainContentComponent::getMenuForIndex(int /*topLevelMenuIndex*/, const String& menuName)
 {
     PopupMenu menu;
+
+#if JUCE_WINDOWS
+    if( menuName == JUCEApplication::getInstance()->getApplicationName() ) {
+        menu.addCommandItem(&appCommandManager, eAboutOpenCmdID);
+    }
+#endif
 
     if( menuName == "File" )
     {
@@ -204,7 +226,7 @@ MainContentComponent::openImageFile()
 {
     FileChooser fc("Choose an image to adjust",
         File::getSpecialLocation(File::userPicturesDirectory),
-		"*.png,*.jpg,*.jpeg");
+		"*.png;*.jpg;*.jpeg");
 
     if( fc.browseForFileToOpen() ) {
         ImageEditorModel::getInstance()->beforeImageFullPathName = fc.getResult().getFullPathName();
@@ -215,7 +237,7 @@ void
 MainContentComponent::saveImageFile()
 {
     String filename = ImageEditorModel::getInstance()->formSaveFileFullPathName();
-    FileChooser fc("Save adjusted image", filename, "*.png,*.jpg,*.jpeg");
+    FileChooser fc("Save adjusted image", filename, "*.png;*.jpg;*.jpeg");
 
     if( fc.browseForFileToSave(true) ) {
         imageEditor.saveImageFile(fc.getResult());

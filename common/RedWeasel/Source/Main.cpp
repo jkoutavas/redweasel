@@ -79,6 +79,8 @@ public:
                                                     Colours::lightgrey,
                                                     DocumentWindow::allButtons)
         {
+            setResizable(false, false);
+
             setUsingNativeTitleBar (true);
             setContentOwned (new MainContentComponent, true);
 
