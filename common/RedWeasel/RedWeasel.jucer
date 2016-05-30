@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="alaPwA" name="RedWeasel" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.heynow.RedWeasel" includeBinaryInAppConfig="1"
-              jucerVersion="4.2.1">
+              jucerVersion="4.2.1" companyName="Heynow Software" companyWebsite="www.heynow.com">
   <MAINGROUP id="DN0ffd" name="RedWeasel">
     <GROUP id="{B011C6AA-FEED-1723-A83A-86593296E8C9}" name="Source">
       <FILE id="A0WUEx" name="AfterImageComponent.cpp" compile="1" resource="0"
@@ -27,11 +27,11 @@
       <FILE id="lE36FC" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
     </GROUP>
     <GROUP id="{F2C1274E-0D95-D30D-8E64-BF6C6436513F}" name="Resources">
-      <FILE id="qlk2Bd" name="RedWeasel.jpeg" compile="0" resource="1" file="Resources/RedWeasel.jpeg"/>
+      <FILE id="jNxk5A" name="appIcon.png" compile="0" resource="1" file="Resources/appIcon.png"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="jNxk5A" bigIcon="jNxk5A">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="RedWeasel"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="RedWeasel"/>
@@ -52,7 +52,7 @@
         <MODULEPATH id="juce_audio_processors" path="../juce/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2015 targetFolder="Builds/VisualStudio2015">
+    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="jNxk5A" bigIcon="jNxk5A">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="RedWeasel"/>
