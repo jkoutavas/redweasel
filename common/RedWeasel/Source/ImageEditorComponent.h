@@ -47,23 +47,25 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void adjustRGB();
+    Image adjustRGB(bool rescale=true);
     void loadImageFile(const File& file);
     void saveImageFile(const File& file);
-    
+
     // Value::Listener
     void valueChanged(Value &value) override;
-
     //[/UserMethods]
 
     void paint (Graphics& g) override;
     void resized() override;
     void sliderValueChanged (Slider* sliderThatWasMoved) override;
+    bool keyPressed (const KeyPress& key) override;
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    Array<File> inputFiles;
+    int inputFileIndex;
     //[/UserVariables]
 
     //==============================================================================
@@ -75,6 +77,8 @@ private:
     ScopedPointer<Label> redLabel;
     ScopedPointer<Label> greenLanel;
     ScopedPointer<Label> blueLabel;
+    ScopedPointer<Label> fileLabel;
+    ScopedPointer<Slider> fileSelector;
 
 
     //==============================================================================

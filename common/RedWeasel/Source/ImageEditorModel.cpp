@@ -19,7 +19,7 @@ ImageEditorModel::formSaveFileName()
    const File sourceFile(beforeImageFullPathName.getValue());
    
    return sourceFile.getFileNameWithoutExtension()
-            + "_adjusted"
+            + kOutputImageSuffix
             + sourceFile.getFileExtension();
 }
 

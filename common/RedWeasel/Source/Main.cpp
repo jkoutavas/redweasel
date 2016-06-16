@@ -12,9 +12,7 @@
 #include "MainComponent.h"
 
 //==============================================================================
-class RedWeaselApplication
-    : public JUCEApplication
-    , public Value::Listener
+class RedWeaselApplication : public JUCEApplication
 {
 public:
     //==============================================================================
@@ -30,8 +28,6 @@ public:
         // This method is where you should put your application's initialisation code..
 
         mainWindow = new MainWindow (getApplicationName());
-        
-        ImageEditorModel::getInstance()->beforeImageFullPathName.addListener(this);
     }
 
     void shutdown() override
@@ -58,15 +54,6 @@ public:
         // the other instance's command-line arguments were.
     }
 
-    void valueChanged (Value& value) override
-    {
-        if( value.refersToSameSourceAs(ImageEditorModel::getInstance()->beforeImageFullPathName) )
-        {
-            File f(value.getValue());
-            mainWindow->setName(f.getFileName());
-        }
-    }
-    
     //==============================================================================
     /*
         This class implements the desktop window that contains an instance of

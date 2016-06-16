@@ -224,9 +224,8 @@ MainContentComponent::openAboutDialog()
 void
 MainContentComponent::openImageFile()
 {
-    FileChooser fc("Choose an image to adjust",
-        File::getSpecialLocation(File::userPicturesDirectory),
-		"*.png;*.jpg;*.jpeg");
+    FileChooser fc("Choose an image to adjust", File::getSpecialLocation(File::userPicturesDirectory),
+        kImageWildcardPattern);
 
     if( fc.browseForFileToOpen() ) {
         ImageEditorModel::getInstance()->beforeImageFullPathName = fc.getResult().getFullPathName();
@@ -237,7 +236,7 @@ void
 MainContentComponent::saveImageFile()
 {
     String filename = ImageEditorModel::getInstance()->formSaveFileFullPathName();
-    FileChooser fc("Save adjusted image", filename, "*.png;*.jpg;*.jpeg");
+    FileChooser fc("Save adjusted image", filename, kImageWildcardPattern);
 
     if( fc.browseForFileToSave(true) ) {
         imageEditor.saveImageFile(fc.getResult());

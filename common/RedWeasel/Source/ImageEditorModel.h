@@ -13,6 +13,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+#define kOutputImageSuffix      "_adjusted"
+#define kImageWildcardPattern   "*.png;*.jpg;*.jpeg"
+
 class ImageEditorModel
 {
 public:
