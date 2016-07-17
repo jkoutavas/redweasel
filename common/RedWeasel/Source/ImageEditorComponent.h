@@ -24,6 +24,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "AfterImageComponent.h"
 #include "BeforeImageComponent.h"
+
 //[/Headers]
 
 
@@ -47,12 +48,15 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+
+    // Value::Listener
+    void valueChanged(Value &value) override;
+
+    // our stuff
     Image adjustRGB(bool rescale=true);
     void loadImageFile(const File& file);
     void saveImageFile(const File& file);
 
-    // Value::Listener
-    void valueChanged(Value &value) override;
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -66,6 +70,21 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     Array<File> inputFiles;
     int inputFileIndex;
+
+    // override the fileSelector's look and feel so that its buttons to get
+    // keyboard focus
+    class FileSelectorLookAndFeel : public LookAndFeel_V2
+    {
+        Button* createSliderButton (Slider&, const bool isIncrement)
+        {
+            TextButton *button = new TextButton (isIncrement ? "+" : "-", String::empty);
+
+            button->setWantsKeyboardFocus(false); // we overrode look and feel to get this
+
+            return button;
+        }
+    };
+    FileSelectorLookAndFeel fileSelectorLookAndFeel;
     //[/UserVariables]
 
     //==============================================================================
@@ -75,7 +94,7 @@ private:
     ScopedPointer<BeforeImageComponent> beforeImageView;
     ScopedPointer<AfterImageComponent> afterImageView;
     ScopedPointer<Label> redLabel;
-    ScopedPointer<Label> greenLanel;
+    ScopedPointer<Label> greenLabel;
     ScopedPointer<Label> blueLabel;
     ScopedPointer<Label> fileLabel;
     ScopedPointer<Slider> fileSelector;

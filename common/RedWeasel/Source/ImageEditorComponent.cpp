@@ -33,7 +33,6 @@
 ImageEditorComponent::ImageEditorComponent ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
-    setWantsKeyboardFocus(true);
     //[/Constructor_pre]
 
     addAndMakeVisible (redSlider = new Slider ("redSlider"));
@@ -71,13 +70,13 @@ ImageEditorComponent::ImageEditorComponent ()
     redLabel->setColour (TextEditor::textColourId, Colours::black);
     redLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (greenLanel = new Label ("greenLabel",
+    addAndMakeVisible (greenLabel = new Label ("greenLabel",
                                                TRANS("Green")));
-    greenLanel->setFont (Font (15.00f, Font::plain));
-    greenLanel->setJustificationType (Justification::centredRight);
-    greenLanel->setEditable (false, false, false);
-    greenLanel->setColour (TextEditor::textColourId, Colours::black);
-    greenLanel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    greenLabel->setFont (Font (15.00f, Font::plain));
+    greenLabel->setJustificationType (Justification::centredRight);
+    greenLabel->setEditable (false, false, false);
+    greenLabel->setColour (TextEditor::textColourId, Colours::black);
+    greenLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (blueLabel = new Label ("blueLabel",
                                               TRANS("Blue\n")));
@@ -115,8 +114,8 @@ ImageEditorComponent::ImageEditorComponent ()
 
     ImageEditorModel::getInstance()->beforeImageFullPathName.addListener(this);
 
-    setWantsKeyboardFocus(false);
-//    fileSelector->setWantsKeyboardFocus(false);
+    fileSelector->setWantsKeyboardFocus(false);
+    fileSelector->setLookAndFeel(&fileSelectorLookAndFeel); // disables keyboard focus on the inc/dec buttons
 
     //[/Constructor]
 }
@@ -132,7 +131,7 @@ ImageEditorComponent::~ImageEditorComponent()
     beforeImageView = nullptr;
     afterImageView = nullptr;
     redLabel = nullptr;
-    greenLanel = nullptr;
+    greenLabel = nullptr;
     blueLabel = nullptr;
     fileLabel = nullptr;
     fileSelector = nullptr;
@@ -165,7 +164,7 @@ void ImageEditorComponent::resized()
     beforeImageView->setBounds (8, 12, 500, 300);
     afterImageView->setBounds (520, 12, 500, 300);
     redLabel->setBounds (522, 330, 38, 24);
-    greenLanel->setBounds (505, 368, 54, 24);
+    greenLabel->setBounds (505, 368, 54, 24);
     blueLabel->setBounds (521, 408, 38, 24);
     fileLabel->setBounds (13, 328, 491, 24);
     fileSelector->setBounds (20, 360, 150, 24);
@@ -409,7 +408,7 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="Red" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="34"/>
-  <LABEL name="greenLabel" id="fff9a69e7f26bb1f" memberName="greenLanel"
+  <LABEL name="greenLabel" id="fff9a69e7f26bb1f" memberName="greenLabel"
          virtualName="" explicitFocusOrder="0" pos="505 368 54 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Green" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
