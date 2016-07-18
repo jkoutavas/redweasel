@@ -20,8 +20,8 @@
 //[Headers] You can add your own extra header files here...
 //[/Headers]
 
+#include "AppProperties.h"
 #include "ImageEditorComponent.h"
-
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
@@ -109,6 +109,10 @@ ImageEditorComponent::ImageEditorComponent ()
 
     //[Constructor] You can add your own custom stuff here..
 
+    redSlider->setValue(AppProperties::getInstance()->getIntValue("redValue"));
+    greenSlider->setValue(AppProperties::getInstance()->getIntValue("greenValue"));
+    blueSlider->setValue(AppProperties::getInstance()->getIntValue("blueValue"));
+
 //    beforeImageView->setImage(ImageCache::getFromMemory(BinaryData::RedWeasel_jpeg, BinaryData::RedWeasel_jpegSize));
     afterImageView->setImage(adjustRGB());
 
@@ -123,6 +127,9 @@ ImageEditorComponent::ImageEditorComponent ()
 ImageEditorComponent::~ImageEditorComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
+    AppProperties::getInstance()->setValue("redValue", redSlider->getValue());
+    AppProperties::getInstance()->setValue("greenValue", greenSlider->getValue());
+    AppProperties::getInstance()->setValue("blueValue", blueSlider->getValue());
     //[/Destructor_pre]
 
     redSlider = nullptr;
