@@ -77,8 +77,9 @@ void PreviewComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    viewport->setBounds (0, 0, getWidth(), getHeight());
+    viewport->setBounds (0, 0, 1200, 800);
     //[UserResized] Add your own custom resize handling here..
+    viewport->setBounds (0, 0, getWidth(), getHeight());
     //[/UserResized]
 }
 
@@ -105,8 +106,9 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="PreviewComponent" componentName=""
                  parentClasses="public Component" constructorParams="const Image&amp; image"
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="1200" initialHeight="800">
+                 variableInitialisers="imageComponent(new ImageComponent)" snapPixels="8"
+                 snapActive="1" snapShown="1" overlayOpacity="0.330" fixedSize="0"
+                 initialWidth="1200" initialHeight="800">
   <BACKGROUND backgroundColour="ffffffff"/>
   <VIEWPORT name="new viewport" id="19bf9dc3cd49cf02" memberName="viewport"
             virtualName="" explicitFocusOrder="0" pos="0 0 1200 800" vscroll="1"
