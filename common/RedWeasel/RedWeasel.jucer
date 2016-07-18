@@ -13,6 +13,9 @@
             file="Source/AfterImageComponent.cpp"/>
       <FILE id="GVg1cd" name="AfterImageComponent.h" compile="0" resource="0"
             file="Source/AfterImageComponent.h"/>
+      <FILE id="ykmyWx" name="AppProperties.cpp" compile="1" resource="0"
+            file="Source/AppProperties.cpp"/>
+      <FILE id="cKspZo" name="AppProperties.h" compile="0" resource="0" file="Source/AppProperties.h"/>
       <FILE id="PWoD42" name="BeforeImageComponent.cpp" compile="1" resource="0"
             file="Source/BeforeImageComponent.cpp"/>
       <FILE id="UQsnT1" name="BeforeImageComponent.h" compile="0" resource="0"
@@ -21,6 +24,8 @@
             file="Source/HNDialogWindow.cpp"/>
       <FILE id="LmF1NA" name="HNDialogWindow.h" compile="0" resource="0"
             file="Source/HNDialogWindow.h"/>
+      <FILE id="lCIVLG" name="HNWindow.cpp" compile="1" resource="0" file="Source/HNWindow.cpp"/>
+      <FILE id="z9eDUd" name="HNWindow.h" compile="0" resource="0" file="Source/HNWindow.h"/>
       <FILE id="NfrMDX" name="ImageEditorComponent.cpp" compile="1" resource="0"
             file="Source/ImageEditorComponent.cpp"/>
       <FILE id="NplGrV" name="ImageEditorComponent.h" compile="0" resource="0"
@@ -33,6 +38,12 @@
             file="Source/MainComponent.cpp"/>
       <FILE id="sbelH6" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="lE36FC" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="LuCb9O" name="PreviewComponent.cpp" compile="1" resource="0"
+            file="Source/PreviewComponent.cpp"/>
+      <FILE id="LBjGaI" name="PreviewComponent.h" compile="0" resource="0"
+            file="Source/PreviewComponent.h"/>
+      <FILE id="aI1CqJ" name="PropsFile.cpp" compile="1" resource="0" file="Source/PropsFile.cpp"/>
+      <FILE id="v420lY" name="PropsFile.h" compile="0" resource="0" file="Source/PropsFile.h"/>
     </GROUP>
     <GROUP id="{F2C1274E-0D95-D30D-8E64-BF6C6436513F}" name="Resources">
       <FILE id="jNxk5A" name="appIcon.png" compile="0" resource="1" file="Resources/appIcon.png"/>

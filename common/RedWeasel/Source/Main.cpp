@@ -8,6 +8,7 @@
   ==============================================================================
 */
 
+#include "AppProperties.h"
 #include "ImageEditorModel.h"
 #include "MainComponent.h"
 
@@ -28,15 +29,22 @@ public:
         // This method is where you should put your application's initialisation code..
 
         mainWindow = new MainWindow (getApplicationName());
+        mainWindow->restoreWindowStateFromString(AppProperties::getInstance()->getValue("MainWindowPos"));
     }
 
     void shutdown() override
     {
-        // Add your application's shutdown code here..
+        if( mainWindow )
+        {
+            AppProperties::getInstance()->setValue("MainWindowPos",
+                mainWindow->getWindowStateAsString());
+        }
 
         mainWindow = nullptr; // (deletes our window)
 
+        // delete our singletons
         ImageEditorModel::deleteInstance();
+        AppProperties::deleteInstance();
     }
 
     //==============================================================================

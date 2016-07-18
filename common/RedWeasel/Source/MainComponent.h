@@ -10,7 +10,9 @@
 #define MAINCOMPONENT_H_INCLUDED
 
 #include "HNDialogWindow.h"
+#include "HNWindow.h"
 #include "ImageEditorComponent.h"
+#include "PreviewComponent.h"
 
 class MainContentComponent
     : public Component
@@ -43,6 +45,7 @@ public: // Value::Listener
 private: // our stuff
     void openAboutDialog();
     void openImageFile();
+    void openImagePreviewWindow();
     void saveImageFile();
     
 private:
@@ -50,6 +53,8 @@ private:
     ApplicationCommandManager appCommandManager;
     DocumentWindow *documentWindow;
     ImageEditorComponent imageEditor;
+    PreviewComponent *previewComponent;
+    ScopedPointer<HNWindow> previewWindow;
 
 #if JUCE_WINDOWS
     ScopedPointer<MenuBarComponent>	menuBar;

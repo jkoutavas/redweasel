@@ -10,12 +10,15 @@
 
 #include "AboutComponent.h"
 #include "ImageEditorModel.h"
+#include "PreviewComponent.h"
 
 enum {
     eAboutClosedCmdID = 1000,
 	eAboutOpenCmdID,
     eFileOpenCmdID,
-    eFileSaveAsCmdID
+    eFileSaveAsCmdID,
+    ePreviewCmdID,
+    ePreviewClosedCmdID
 };
 
 static String aboutMenuItemTitle()
@@ -24,6 +27,8 @@ static String aboutMenuItemTitle()
 }
 
 MainContentComponent::MainContentComponent()
+    : previewComponent(nullptr)
+    , previewWindow(nullptr)
 {
     appCommandManager.registerAllCommandsForTarget(this);
     setApplicationCommandManagerToWatch(&appCommandManager);
@@ -72,6 +77,11 @@ MainContentComponent::handleCommandMessage(int commandId)
         case eAboutClosedCmdID:
             aboutDialog = nullptr;
         break;
+
+        case ePreviewClosedCmdID:
+            previewWindow = nullptr;
+            previewComponent = nullptr;
+        break;
     }
 }
 
@@ -95,7 +105,8 @@ MainContentComponent::getAllCommands(Array<CommandID>& commands)
     const CommandID ids[] = {
         eAboutOpenCmdID,
         eFileOpenCmdID,
-        eFileSaveAsCmdID
+        eFileSaveAsCmdID,
+        ePreviewCmdID
 	};
 
     commands.addArray(ids, numElementsInArray(ids));
@@ -114,11 +125,19 @@ MainContentComponent::getCommandInfo(const CommandID commandID, ApplicationComma
         
         case eFileOpenCmdID:
             result.setInfo("Open...", String::empty, category, 0);
+ //           result.addDefaultKeypress('o',ModifierKeys::commandModifier);
         break;
         
         case eFileSaveAsCmdID:
             result.setInfo("Save As...", String::empty, category, 0);
 			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != String::empty);
+//            result.addDefaultKeypress('s',ModifierKeys::commandModifier);
+        break;
+
+        case ePreviewCmdID:
+            result.setInfo("Preview Window", String::empty, category, 0);
+			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != String::empty);
+//            result.addDefaultKeypress('z',ModifierKeys::commandModifier);
         break;
     }
 }
@@ -149,6 +168,7 @@ MainContentComponent::getMenuBarNames()
 #endif
 
     names.add("File");
+    names.add("View");
     
 	return names;
 }
@@ -168,6 +188,11 @@ MainContentComponent::getMenuForIndex(int /*topLevelMenuIndex*/, const String& m
     {
         menu.addCommandItem(&appCommandManager, eFileOpenCmdID);
         menu.addCommandItem(&appCommandManager, eFileSaveAsCmdID);
+    }
+
+    if( menuName == "View" )
+    {
+        menu.addCommandItem(&appCommandManager, ePreviewCmdID);
     }
     
     return menu;
@@ -189,6 +214,10 @@ MainContentComponent::menuItemSelected(int menuItemID, int topLevelMenuIndex)
         case eFileSaveAsCmdID:
             saveImageFile();
         break;
+        
+        case ePreviewCmdID:
+            openImagePreviewWindow();
+        break;
     }
 }
 
@@ -199,7 +228,12 @@ MainContentComponent::menuItemSelected(int menuItemID, int topLevelMenuIndex)
 void
 MainContentComponent::valueChanged(Value &value)
 {
-    if( value.refersToSameSourceAs(ImageEditorModel::getInstance()->beforeImageFullPathName) ) {
+    if( value.refersToSameSourceAs(ImageEditorModel::getInstance()->beforeImageFullPathName) )
+    {
+        // tear down current preview window if open
+        if( previewWindow ) {
+            handleCommandMessage(ePreviewClosedCmdID);
+        }
         menuItemsChanged(); // light-up the 'Save As...' menu item
     }
 }
@@ -229,6 +263,32 @@ MainContentComponent::openImageFile()
 
     if( fc.browseForFileToOpen() ) {
         ImageEditorModel::getInstance()->beforeImageFullPathName = fc.getResult().getFullPathName();
+    }
+}
+
+void
+MainContentComponent::openImagePreviewWindow()
+{
+    const Image image = imageEditor.adjustRGB(false);
+
+    if( previewWindow )
+    {
+        previewWindow->toFront(true);
+        previewComponent->setImage(image);
+    }
+    else
+    {
+        previewComponent = new PreviewComponent(image);
+        previewWindow = new HNWindow("Preview",
+                            this,
+                            previewComponent,
+                            ePreviewClosedCmdID,
+                            "PreviewWindowPos");
+        previewWindow->setResizable(true,true);
+        int width = image.getWidth()+2;
+        int height = image.getHeight()+24+4;
+        previewWindow->setSize(std::min(width,1200),std::min(height,800));
+        previewWindow->setResizeLimits(128,128,width, height);
     }
 }
 
