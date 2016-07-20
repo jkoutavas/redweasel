@@ -56,6 +56,10 @@ MainContentComponent::MainContentComponent()
 #endif
 
     setSize(1030, height);
+
+#if JUCE_WINDOWS
+	imageEditor.setTopLeftPosition(imageEditor.getX(), imageEditor.getY() + 24);
+#endif
 }
 
 MainContentComponent::~MainContentComponent()
@@ -90,10 +94,9 @@ void
 MainContentComponent::resized()
 {
 #if JUCE_WINDOWS
-    menuBar->setBounds(0, 0, getWidth(), 24);
-    imageEditor.setTopLeftPosition(imageEditor.getX(), imageEditor.getY() + 24);
- #endif
- 
+	menuBar->setBounds(0, 0, getWidth(), 24);
+#endif
+
     imageEditor.setSize(getWidth(),getHeight());
 }
 
