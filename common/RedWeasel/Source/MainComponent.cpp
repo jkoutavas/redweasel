@@ -92,6 +92,8 @@ MainContentComponent::resized()
     menuBar->setBounds(0, 0, getWidth(), 24);
     imageEditor.setTopLeftPosition(imageEditor.getX(), imageEditor.getY() + 24);
  #endif
+ 
+    imageEditor.setSize(getWidth(),getHeight());
 }
 
 #if 0

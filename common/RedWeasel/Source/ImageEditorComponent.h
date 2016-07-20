@@ -56,6 +56,9 @@ public:
     Image adjustRGB(bool rescale=true);
     void loadImageFile(const File& file);
     void saveImageFile(const File& file);
+    void scaleBoundsForComponent(Component* c);
+    void shiftXYPositionForComponent(Component* c);
+    void shiftYPositionForComponent(Component* c);
 
     //[/UserMethods]
 

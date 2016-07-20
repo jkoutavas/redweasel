@@ -27,6 +27,9 @@
 
 #include "ImageEditorModel.h"
 
+static const double kDefaultWidth = 1030.0;
+static const double kDefaultHeight = 490.0;
+
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -118,6 +121,7 @@ ImageEditorComponent::ImageEditorComponent ()
 
     ImageEditorModel::getInstance()->beforeImageFullPathName.addListener(this);
 
+    fileSelector->setEnabled(false);
     fileSelector->setWantsKeyboardFocus(false);
     fileSelector->setLookAndFeel(&fileSelectorLookAndFeel); // disables keyboard focus on the inc/dec buttons
 
@@ -176,7 +180,19 @@ void ImageEditorComponent::resized()
     fileLabel->setBounds (13, 328, 491, 24);
     fileSelector->setBounds (20, 360, 150, 24);
     //[UserResized] Add your own custom resize handling here..
-    fileSelector->setEnabled(false);
+    shiftXYPositionForComponent(redSlider);
+    shiftXYPositionForComponent(greenSlider);
+    shiftXYPositionForComponent(blueSlider);
+    shiftXYPositionForComponent(redLabel);
+    shiftXYPositionForComponent(greenLabel);
+    shiftXYPositionForComponent(blueLabel);
+    shiftYPositionForComponent(fileLabel);
+    shiftYPositionForComponent(fileSelector);
+    const double kWidthScale = (double)getWidth()/kDefaultWidth;
+    fileLabel->setBounds(fileLabel->getX(), fileLabel->getY(), fileLabel->getWidth()*kWidthScale, fileLabel->getHeight());
+    const int bottom = redSlider->getY() - 30;
+    beforeImageView->setBounds (8, 12, 500*kWidthScale, bottom);
+    afterImageView->setBounds (520*kWidthScale, 12, 500*kWidthScale, bottom);
     //[/UserResized]
 }
 
@@ -367,6 +383,24 @@ void
 ImageEditorComponent::saveImageFile(const File& file)
 {
    ImageEditorModel::getInstance()->saveImageFile(file, adjustRGB(false));
+}
+
+void ImageEditorComponent::shiftXYPositionForComponent(Component* c)
+{
+    c->setBounds (
+        getWidth()-(kDefaultWidth-c->getX()),
+        getHeight()-(kDefaultHeight-c->getY()-c->getHeight()),
+        c->getWidth(),
+        c->getHeight());
+}
+
+void ImageEditorComponent::shiftYPositionForComponent(Component* c)
+{
+    c->setBounds (
+        c->getX(),
+        getHeight()-(kDefaultHeight-c->getY()-c->getHeight()),
+        c->getWidth(),
+        c->getHeight());
 }
 
 //[/MiscUserCode]
