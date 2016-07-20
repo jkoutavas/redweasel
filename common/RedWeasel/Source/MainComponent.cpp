@@ -9,6 +9,7 @@
 #include "MainComponent.h"
 
 #include "AboutComponent.h"
+#include "AppProperties.h"
 #include "ImageEditorModel.h"
 #include "PreviewComponent.h"
 
@@ -260,10 +261,17 @@ MainContentComponent::openAboutDialog()
 void
 MainContentComponent::openImageFile()
 {
-    FileChooser fc("Choose an image to adjust", File::getSpecialLocation(File::userPicturesDirectory),
-        kImageWildcardPattern);
-
-    if( fc.browseForFileToOpen() ) {
+    String lastOpenedFolder = AppProperties::getInstance()->getValue("lastOpenedFolder");
+    File folder(lastOpenedFolder);
+    if( !folder.exists() ) {
+        folder = File::getSpecialLocation(File::userPicturesDirectory);
+    }
+    
+    FileChooser fc("Choose an image to adjust", folder, kImageWildcardPattern);
+    if( fc.browseForFileToOpen() )
+    {
+        File folder = fc.getResult().getParentDirectory();
+        AppProperties::getInstance()->setValue("lastOpenedFolder",folder.getFullPathName());
         ImageEditorModel::getInstance()->beforeImageFullPathName = fc.getResult().getFullPathName();
     }
 }
