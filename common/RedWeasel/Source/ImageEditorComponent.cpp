@@ -377,6 +377,8 @@ ImageEditorComponent::loadImageFile(const File& file)
     afterImageView->setImage(adjustRGB());
 
     fileLabel->setText("File: " + file.getFullPathName(), dontSendNotification);
+    
+    grabKeyboardFocus(); // enables our shortcut keys
 }
 
 void
