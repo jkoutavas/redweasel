@@ -454,7 +454,6 @@ void
 ImageEditorComponent::saveImageFile(const File& file)
 {
     ImageEditorModel::getInstance()->saveImageFile(file, adjustRGB(false));
-    helpLabel->setVisible(false);
 
     stopTimer();
     saveMessageLabel->setText("Saved as " + file.getFileName(), NotificationType::dontSendNotification);
