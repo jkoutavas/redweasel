@@ -50,15 +50,15 @@ MainContentComponent::MainContentComponent()
 
     ImageEditorModel::getInstance()->beforeImageFullPathName.addListener(this);
 
-    int height = 450;
+    int height = 515;
 #if JUCE_WINDOWS
-    height += 24;
+    height += getLookAndFeel().getDefaultMenuBarHeight();
 #endif
 
     setSize(1030, height);
 
 #if JUCE_WINDOWS
-	imageEditor.setTopLeftPosition(imageEditor.getX(), imageEditor.getY() + 24);
+	imageEditor.setTopLeftPosition(imageEditor.getX(), imageEditor.getY() + getLookAndFeel().getDefaultMenuBarHeight());
 #endif
 }
 

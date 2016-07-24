@@ -31,7 +31,7 @@ public:
         mainWindow = new MainWindow (getApplicationName());
         mainWindow->restoreWindowStateFromString(AppProperties::getInstance()->getValue("MainWindowPos"));
         mainWindow->setResizable(true,true);
-        mainWindow->setResizeLimits(1030,490,32768,32768);
+        mainWindow->setResizeLimits(1030,515,32768,32768);
     }
 
     void shutdown() override

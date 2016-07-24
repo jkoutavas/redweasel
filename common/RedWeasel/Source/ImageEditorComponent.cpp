@@ -18,17 +18,18 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "AppProperties.h"
 //[/Headers]
 
-#include "AppProperties.h"
 #include "ImageEditorComponent.h"
+
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
 #include "ImageEditorModel.h"
 
 static const double kDefaultWidth = 1030.0;
-static const double kDefaultHeight = 490.0;
+static const double kDefaultHeight = 515.0;
 
 //[/MiscUserDefs]
 
@@ -103,11 +104,38 @@ ImageEditorComponent::ImageEditorComponent ()
     fileSelector->setTextBoxStyle (Slider::TextBoxLeft, true, 80, 20);
     fileSelector->addListener (this);
 
+    addAndMakeVisible (helpLabel = new Label ("helpLabel",
+                                              TRANS("When an image is loaded, these shortcut keys are available:\n"
+                                              "\n"
+                                              "    Left Arrow -- go to the previous image in the containing folder (if any)\n"
+                                              "    Right Arrow -- go to the next image \n"
+                                              "    \'s\' -- save your current adjusted image \n")));
+    helpLabel->setFont (Font (14.00f, Font::italic));
+    helpLabel->setJustificationType (Justification::topLeft);
+    helpLabel->setEditable (false, false, false);
+    helpLabel->setColour (Label::textColourId, Colours::lightblue);
+    helpLabel->setColour (TextEditor::textColourId, Colours::black);
+    helpLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (helpLabel2 = new Label ("helpLabel2",
+                                               TRANS("When you tap on one of the color % edit fields, these shortcut keys are available:\n"
+                                               "\n"
+                                               "    tab -- move to next color % edit field\n"
+                                               "    shift-tab -- move to previous color % edit field")));
+    helpLabel2->setFont (Font (14.00f, Font::italic));
+    helpLabel2->setJustificationType (Justification::topLeft);
+    helpLabel2->setEditable (false, false, false);
+    helpLabel2->setColour (Label::textColourId, Colours::lightblue);
+    helpLabel2->setColour (TextEditor::textColourId, Colours::black);
+    helpLabel2->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
 
     //[UserPreSize]
+    helpLabel->setVisible(false);
+    helpLabel2->setVisible(false);
     //[/UserPreSize]
 
-    setSize (1030, 490);
+    setSize (1030, 515);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -146,6 +174,8 @@ ImageEditorComponent::~ImageEditorComponent()
     blueLabel = nullptr;
     fileLabel = nullptr;
     fileSelector = nullptr;
+    helpLabel = nullptr;
+    helpLabel2 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -161,6 +191,11 @@ void ImageEditorComponent::paint (Graphics& g)
     g.fillAll (Colours::white);
 
     //[UserPaint] Add your own custom painting code here..
+    if( helpLabel->isVisible() )
+    {
+        g.setColour(juce::Colours::lightgrey);
+        g.drawLine(0, helpLabel->getY()-8, getWidth(), helpLabel->getY()-8);
+    }
     //[/UserPaint]
 }
 
@@ -169,16 +204,18 @@ void ImageEditorComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    redSlider->setBounds (568, 329, 450, 24);
-    greenSlider->setBounds (568, 368, 450, 24);
-    blueSlider->setBounds (568, 409, 450, 24);
+    redSlider->setBounds (568, 317, 450, 24);
+    greenSlider->setBounds (568, 347, 450, 24);
+    blueSlider->setBounds (568, 379, 450, 24);
     beforeImageView->setBounds (8, 12, 500, 300);
     afterImageView->setBounds (520, 12, 500, 300);
-    redLabel->setBounds (522, 330, 38, 24);
-    greenLabel->setBounds (505, 368, 54, 24);
-    blueLabel->setBounds (521, 408, 38, 24);
-    fileLabel->setBounds (13, 328, 491, 24);
-    fileSelector->setBounds (20, 360, 150, 24);
+    redLabel->setBounds (522, 317, 38, 24);
+    greenLabel->setBounds (505, 347, 54, 24);
+    blueLabel->setBounds (521, 379, 38, 24);
+    fileLabel->setBounds (13, 317, 491, 24);
+    fileSelector->setBounds (20, 345, 150, 24);
+    helpLabel->setBounds (20, 431, 464, 80);
+    helpLabel2->setBounds (520, 431, 488, 59);
     //[UserResized] Add your own custom resize handling here..
     shiftXYPositionForComponent(redSlider);
     shiftXYPositionForComponent(greenSlider);
@@ -188,6 +225,8 @@ void ImageEditorComponent::resized()
     shiftXYPositionForComponent(blueLabel);
     shiftYPositionForComponent(fileLabel);
     shiftYPositionForComponent(fileSelector);
+    shiftYPositionForComponent(helpLabel);
+    shiftXYPositionForComponent(helpLabel2);
     const double kWidthScale = (double)getWidth()/kDefaultWidth;
     fileLabel->setBounds(fileLabel->getX(), fileLabel->getY(), fileLabel->getWidth()*kWidthScale, fileLabel->getHeight());
     const int bottom = redSlider->getY() - 30;
@@ -377,7 +416,11 @@ ImageEditorComponent::loadImageFile(const File& file)
     afterImageView->setImage(adjustRGB());
 
     fileLabel->setText("File: " + file.getFullPathName(), dontSendNotification);
-    
+
+    helpLabel->setVisible(true);
+    helpLabel2->setVisible(true);
+    repaint();
+
     grabKeyboardFocus(); // enables our shortcut keys
 }
 
@@ -389,20 +432,16 @@ ImageEditorComponent::saveImageFile(const File& file)
 
 void ImageEditorComponent::shiftXYPositionForComponent(Component* c)
 {
-    c->setBounds (
+    c->setTopLeftPosition(
         getWidth()-(kDefaultWidth-c->getX()),
-        getHeight()-(kDefaultHeight-c->getY()-c->getHeight()),
-        c->getWidth(),
-        c->getHeight());
+        c->getY()+(getHeight()-kDefaultHeight));
 }
 
 void ImageEditorComponent::shiftYPositionForComponent(Component* c)
 {
-    c->setBounds (
+    c->setTopLeftPosition(
         c->getX(),
-        getHeight()-(kDefaultHeight-c->getY()-c->getHeight()),
-        c->getWidth(),
-        c->getHeight());
+        c->getY()+(getHeight()-kDefaultHeight));
 }
 
 //[/MiscUserCode]
@@ -420,23 +459,23 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="ImageEditorComponent" componentName=""
                  parentClasses="public Component, public Value::Listener" constructorParams=""
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="1030" initialHeight="490">
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="1030" initialHeight="515">
   <METHODS>
     <METHOD name="keyPressed (const KeyPress&amp; key)"/>
   </METHODS>
   <BACKGROUND backgroundColour="ffffffff"/>
   <SLIDER name="redSlider" id="bdb7303b5032438b" memberName="redSlider"
-          virtualName="" explicitFocusOrder="1" pos="568 329 450 24" min="-50"
+          virtualName="" explicitFocusOrder="1" pos="568 317 450 24" min="-50"
           max="50" int="1" style="LinearHorizontal" textBoxPos="TextBoxLeft"
           textBoxEditable="1" textBoxWidth="30" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="greenSlider" id="436a5ff4bb288b22" memberName="greenSlider"
-          virtualName="" explicitFocusOrder="2" pos="568 368 450 24" min="-50"
+          virtualName="" explicitFocusOrder="2" pos="568 347 450 24" min="-50"
           max="50" int="1" style="LinearHorizontal" textBoxPos="TextBoxLeft"
           textBoxEditable="1" textBoxWidth="30" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <SLIDER name="blueSlider" id="98f2f7171ee398f0" memberName="blueSlider"
-          virtualName="" explicitFocusOrder="3" pos="568 409 450 24" min="-50"
+          virtualName="" explicitFocusOrder="3" pos="568 379 450 24" min="-50"
           max="50" int="1" style="LinearHorizontal" textBoxPos="TextBoxLeft"
           textBoxEditable="1" textBoxWidth="30" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
@@ -447,30 +486,40 @@ BEGIN_JUCER_METADATA
                     virtualName="" explicitFocusOrder="0" pos="520 12 500 300" class="AfterImageComponent"
                     params=""/>
   <LABEL name="redLabel" id="935403b992fdd1" memberName="redLabel" virtualName=""
-         explicitFocusOrder="0" pos="522 330 38 24" edTextCol="ff000000"
+         explicitFocusOrder="0" pos="522 317 38 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Red" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="34"/>
   <LABEL name="greenLabel" id="fff9a69e7f26bb1f" memberName="greenLabel"
-         virtualName="" explicitFocusOrder="0" pos="505 368 54 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="505 347 54 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Green" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="34"/>
   <LABEL name="blueLabel" id="9f5edce0b62335fe" memberName="blueLabel"
-         virtualName="" explicitFocusOrder="0" pos="521 408 38 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="521 379 38 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Blue&#10;" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="34"/>
   <LABEL name="fileLabel" id="aa31e0817222723f" memberName="fileLabel"
-         virtualName="" explicitFocusOrder="0" pos="13 328 491 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="13 317 491 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Folder:" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="33"/>
   <SLIDER name="fileSelector" id="a5652d32a507595a" memberName="fileSelector"
-          virtualName="" explicitFocusOrder="0" pos="20 360 150 24" min="0"
+          virtualName="" explicitFocusOrder="0" pos="20 345 150 24" min="0"
           max="0" int="1" style="IncDecButtons" textBoxPos="TextBoxLeft"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
+  <LABEL name="helpLabel" id="907ddf53d86610ef" memberName="helpLabel"
+         virtualName="" explicitFocusOrder="0" pos="20 431 464 80" textCol="ffadd8e6"
+         edTextCol="ff000000" edBkgCol="0" labelText="When an image is loaded, these shortcut keys are available:&#10;&#10;    Left Arrow -- go to the previous image in the containing folder (if any)&#10;    Right Arrow -- go to the next image &#10;    's' -- save your current adjusted image &#10;"
+         editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
+         fontname="Default font" fontsize="14" bold="0" italic="1" justification="9"/>
+  <LABEL name="helpLabel2" id="478e44124451318a" memberName="helpLabel2"
+         virtualName="" explicitFocusOrder="0" pos="520 431 488 59" textCol="ffadd8e6"
+         edTextCol="ff000000" edBkgCol="0" labelText="When you tap on one of the color % edit fields, these shortcut keys are available:&#10;&#10;    tab -- move to next color % edit field&#10;    shift-tab -- move to previous color % edit field"
+         editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
+         fontname="Default font" fontsize="14" bold="0" italic="1" justification="9"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

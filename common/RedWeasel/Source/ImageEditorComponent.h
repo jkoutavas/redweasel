@@ -101,6 +101,8 @@ private:
     ScopedPointer<Label> blueLabel;
     ScopedPointer<Label> fileLabel;
     ScopedPointer<Slider> fileSelector;
+    ScopedPointer<Label> helpLabel;
+    ScopedPointer<Label> helpLabel2;
 
 
     //==============================================================================
