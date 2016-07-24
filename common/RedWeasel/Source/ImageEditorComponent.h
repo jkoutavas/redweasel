@@ -38,6 +38,7 @@
                                                                     //[/Comments]
 */
 class ImageEditorComponent  : public Component,
+                              public Timer,
                               public Value::Listener,
                               public SliderListener
 {
@@ -49,6 +50,9 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
 
+    // Timer
+    void timerCallback() override;
+    
     // Value::Listener
     void valueChanged(Value &value) override;
 
@@ -103,6 +107,7 @@ private:
     ScopedPointer<Slider> fileSelector;
     ScopedPointer<Label> helpLabel;
     ScopedPointer<Label> helpLabel2;
+    ScopedPointer<Label> saveMessageLabel;
 
 
     //==============================================================================

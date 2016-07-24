@@ -129,10 +129,21 @@ ImageEditorComponent::ImageEditorComponent ()
     helpLabel2->setColour (TextEditor::textColourId, Colours::black);
     helpLabel2->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (saveMessageLabel = new Label ("saveMessageLabel",
+                                                     TRANS("label text")));
+    saveMessageLabel->setFont (Font (23.00f, Font::plain));
+    saveMessageLabel->setJustificationType (Justification::centred);
+    saveMessageLabel->setEditable (false, false, false);
+    saveMessageLabel->setColour (Label::backgroundColourId, Colour (0xaa000000));
+    saveMessageLabel->setColour (Label::textColourId, Colours::lightblue);
+    saveMessageLabel->setColour (TextEditor::textColourId, Colours::black);
+    saveMessageLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
 
     //[UserPreSize]
     helpLabel->setVisible(false);
     helpLabel2->setVisible(false);
+    saveMessageLabel->setVisible(false);
     //[/UserPreSize]
 
     setSize (1030, 515);
@@ -176,6 +187,7 @@ ImageEditorComponent::~ImageEditorComponent()
     fileSelector = nullptr;
     helpLabel = nullptr;
     helpLabel2 = nullptr;
+    saveMessageLabel = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -216,6 +228,7 @@ void ImageEditorComponent::resized()
     fileSelector->setBounds (20, 345, 150, 24);
     helpLabel->setBounds (20, 431, 464, 80);
     helpLabel2->setBounds (520, 431, 488, 59);
+    saveMessageLabel->setBounds (632, 120, 300, 100);
     //[UserResized] Add your own custom resize handling here..
     shiftXYPositionForComponent(redSlider);
     shiftXYPositionForComponent(greenSlider);
@@ -232,6 +245,7 @@ void ImageEditorComponent::resized()
     const int bottom = redSlider->getY() - 30;
     beforeImageView->setBounds (8, 12, 500*kWidthScale, bottom);
     afterImageView->setBounds (520*kWidthScale, 12, 500*kWidthScale, bottom);
+    saveMessageLabel->setTopLeftPosition(afterImageView->getX()+afterImageView->getWidth()/2-saveMessageLabel->getWidth()/2,afterImageView->getY()+afterImageView->getHeight()/2-saveMessageLabel->getHeight()/2);
     //[/UserResized]
 }
 
@@ -307,6 +321,18 @@ bool ImageEditorComponent::keyPressed (const KeyPress& key)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+
+#if 0
+#pragma mar - Timer
+#endif
+
+void
+ImageEditorComponent::timerCallback()
+{
+    saveMessageLabel->setVisible(false);
+    saveMessageLabel->setAlpha(1.0f);
+    stopTimer();
+}
 
 #if 0
 #pragma mark - Value::Listener
@@ -427,7 +453,15 @@ ImageEditorComponent::loadImageFile(const File& file)
 void
 ImageEditorComponent::saveImageFile(const File& file)
 {
-   ImageEditorModel::getInstance()->saveImageFile(file, adjustRGB(false));
+    ImageEditorModel::getInstance()->saveImageFile(file, adjustRGB(false));
+    helpLabel->setVisible(false);
+
+    stopTimer();
+    saveMessageLabel->setText("Saved as " + file.getFileName(), NotificationType::dontSendNotification);
+    saveMessageLabel->setVisible(true);
+    saveMessageLabel->setAlpha(1.0);
+    Desktop::getInstance().getAnimator().fadeOut(saveMessageLabel, 2000);
+    startTimer(2000);
 }
 
 void ImageEditorComponent::shiftXYPositionForComponent(Component* c)
@@ -520,6 +554,11 @@ BEGIN_JUCER_METADATA
          edTextCol="ff000000" edBkgCol="0" labelText="When you tap on one of the color % edit fields, these shortcut keys are available:&#10;&#10;    tab -- move to next color % edit field&#10;    shift-tab -- move to previous color % edit field"
          editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
          fontname="Default font" fontsize="14" bold="0" italic="1" justification="9"/>
+  <LABEL name="saveMessageLabel" id="22159fe0f175a075" memberName="saveMessageLabel"
+         virtualName="" explicitFocusOrder="0" pos="632 120 300 100" bkgCol="aa000000"
+         textCol="ffadd8e6" edTextCol="ff000000" edBkgCol="0" labelText="label text"
+         editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
+         fontname="Default font" fontsize="23" bold="0" italic="0" justification="36"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
