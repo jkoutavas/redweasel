@@ -433,7 +433,7 @@ ImageEditorComponent::loadImageFile(const File& file)
         }
         count = inputFiles.size();
         fileSelector->setRange(1,count,1);
-        fileSelector->setValue(inputFileIndex+1);
+        fileSelector->setValue(inputFileIndex+1, dontSendNotification);
         fileSelector->setTextValueSuffix(String::formatted(" of %d",count));
         fileSelector->setEnabled(count>0);
     }
