@@ -24,17 +24,17 @@ BeforeImageComponent::~BeforeImageComponent()
 
 void BeforeImageComponent::paint (Graphics& g)
 {
+    g.fillAll (Colours::white);
+
+    g.setColour(dragEntered ? Colours::green : Colours::lightgrey);
+    g.drawRect (getLocalBounds(), dragEntered ? 2 : 1);
+
     if( getImage().isValid() )
     {
         ImageComponent::paint(g);
         return;
     }
     
-    g.fillAll (Colours::white);
-
-    g.setColour(dragEntered ? Colours::green : Colours::lightgrey);
-    g.drawRect (getLocalBounds(), dragEntered ? 2 : 1);
-
     g.setColour (Colours::lightblue);
     g.setFont (Font(28.0f, Font::italic));
     g.drawText ("Open an image file or drop image here", getLocalBounds(),

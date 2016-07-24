@@ -33,11 +33,11 @@ PreviewComponent::PreviewComponent (const Image& image)
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    addAndMakeVisible (viewport = new Viewport ("new viewport"));
+    addAndMakeVisible (imageComponent = new ImageComponent());
+    imageComponent->setName ("imageComponent");
 
 
     //[UserPreSize]
-    viewport->setViewedComponent (imageComponent);
     setImage(image);
     //[/UserPreSize]
 
@@ -53,7 +53,7 @@ PreviewComponent::~PreviewComponent()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    viewport = nullptr;
+    imageComponent = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -77,9 +77,9 @@ void PreviewComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    viewport->setBounds (0, 0, 1200, 800);
+    imageComponent->setBounds (0, 0, 1200, 800);
     //[UserResized] Add your own custom resize handling here..
-    viewport->setBounds (0, 0, getWidth(), getHeight());
+    imageComponent->setBounds (0, 0, getWidth(), getHeight());
     //[/UserResized]
 }
 
@@ -110,10 +110,9 @@ BEGIN_JUCER_METADATA
                  snapActive="1" snapShown="1" overlayOpacity="0.330" fixedSize="0"
                  initialWidth="1200" initialHeight="800">
   <BACKGROUND backgroundColour="ffffffff"/>
-  <VIEWPORT name="new viewport" id="19bf9dc3cd49cf02" memberName="viewport"
-            virtualName="" explicitFocusOrder="0" pos="0 0 1200 800" vscroll="1"
-            hscroll="1" scrollbarThickness="18" contentType="0" jucerFile=""
-            contentClass="ImageComponent" constructorParams=""/>
+  <GENERICCOMPONENT name="imageComponent" id="2b7e824bd4e3c69f" memberName="imageComponent"
+                    virtualName="" explicitFocusOrder="0" pos="0 0 1200 800" class="ImageComponent"
+                    params=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

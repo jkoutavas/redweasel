@@ -27,17 +27,17 @@ AfterImageComponent::~AfterImageComponent()
 void
 AfterImageComponent::paint (Graphics& g)
 {
+    g.fillAll (Colours::white);
+
+    g.setColour(Colours::lightgrey);
+    g.drawRect (getLocalBounds(), 1);
+
     if( getImage().isValid() )
     {
         ImageComponent::paint(g);
         return;
     }
     
-    g.fillAll (Colours::white);
-
-    g.setColour(Colours::lightgrey);
-    g.drawRect (getLocalBounds(), 1);
-
     g.setColour (Colours::lightblue);
     g.setFont (Font(28.0f, Font::italic));
     g.drawText ("The adjusted image will appear here", getLocalBounds(),

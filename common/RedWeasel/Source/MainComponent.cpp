@@ -84,6 +84,8 @@ MainContentComponent::handleCommandMessage(int commandId)
         break;
 
         case ePreviewClosedCmdID:
+            AppProperties::getInstance()->setValue("PreviewWindowPos",
+                previewWindow->getWindowStateAsString());
             previewWindow = nullptr;
             previewComponent = nullptr;
         break;
@@ -278,30 +280,37 @@ MainContentComponent::openImageFile()
         ImageEditorModel::getInstance()->beforeImageFullPathName = fc.getResult().getFullPathName();
     }
 }
-
 void
 MainContentComponent::openImagePreviewWindow()
 {
-    const Image image = imageEditor.adjustRGB(false);
+    const Image fullImage = imageEditor.adjustRGB(false);
 
     if( previewWindow )
     {
         previewWindow->toFront(true);
-        previewComponent->setImage(image);
+        previewComponent->setImage(fullImage);
     }
     else
     {
-        previewComponent = new PreviewComponent(image);
+        previewComponent = new PreviewComponent(fullImage);
         previewWindow = new HNWindow("Preview",
                             this,
                             previewComponent,
                             ePreviewClosedCmdID,
                             "PreviewWindowPos");
         previewWindow->setResizable(true,true);
-        int width = image.getWidth()+2;
-        int height = image.getHeight()+24+4;
-        previewWindow->setSize(std::min(width,1200),std::min(height,800));
-        previewWindow->setResizeLimits(128,128,width, height);
+
+        Rectangle<int> area = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+        
+        previewWindow->setSize(
+            std::min(fullImage.getWidth(), area.getWidth()),
+            std::min(fullImage.getHeight(), area.getHeight()));
+        
+        previewWindow->setResizeLimits(
+            std::min(fullImage.getWidth(), area.getWidth()),
+            std::min(fullImage.getHeight(), area.getHeight()),
+            area.getWidth(),
+            area.getHeight());
     }
 }
 

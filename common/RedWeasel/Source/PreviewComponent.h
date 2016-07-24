@@ -53,11 +53,10 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    ImageComponent *imageComponent;
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<Viewport> viewport;
+    ScopedPointer<ImageComponent> imageComponent;
 
 
     //==============================================================================
