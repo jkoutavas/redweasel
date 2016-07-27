@@ -79,5 +79,7 @@ void
 BeforeImageComponent::filesDropped (const StringArray& files, int x, int y)
 {
     ImageEditorModel::getInstance()->beforeImageFullPathName = files[0];
+    dragEntered = false;
+    repaint();
 }
 
