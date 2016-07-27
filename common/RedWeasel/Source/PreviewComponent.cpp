@@ -39,9 +39,8 @@ PreviewComponent::PreviewComponent (const Image& image)
 
     //[UserPreSize]
     setImage(image);
+    imageComponent->setImagePlacement(RectanglePlacement::stretchToFit);
     //[/UserPreSize]
-
-    setSize (1200, 800);
 
 
     //[Constructor] You can add your own custom stuff here..

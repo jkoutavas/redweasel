@@ -303,15 +303,17 @@ MainContentComponent::openImagePreviewWindow()
 
         Rectangle<int> area = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
         
+        const double aspectRatio = fullImage.getWidth() / fullImage.getHeight();
+        
         previewWindow->setSize(
             std::min(fullImage.getWidth(), area.getWidth()),
-            std::min(fullImage.getHeight(), area.getHeight()));
+            std::min((double)fullImage.getHeight(), area.getHeight()/aspectRatio));
         
         previewWindow->setResizeLimits(
             std::min(fullImage.getWidth(), area.getWidth()),
-            std::min(fullImage.getHeight(), area.getHeight()),
+            std::min((double)fullImage.getHeight(), area.getHeight()/aspectRatio),
             area.getWidth(),
-            area.getHeight());
+            area.getHeight()/aspectRatio);
     }
 }
 
