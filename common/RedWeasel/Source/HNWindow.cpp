@@ -40,7 +40,6 @@ HNWindow::closeButtonPressed()
     host->postCommandMessage(closeCommandID);
 }
 
-
 bool
 HNWindow::keyPressed (const KeyPress& key)
 {

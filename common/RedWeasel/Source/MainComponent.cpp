@@ -133,19 +133,19 @@ MainContentComponent::getCommandInfo(const CommandID commandID, ApplicationComma
         
         case eFileOpenCmdID:
             result.setInfo("Open...", String::empty, category, 0);
- //           result.addDefaultKeypress('o',ModifierKeys::commandModifier);
+            result.addDefaultKeypress('o',ModifierKeys::commandModifier);
         break;
         
         case eFileSaveAsCmdID:
             result.setInfo("Save As...", String::empty, category, 0);
 			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != String::empty);
-//            result.addDefaultKeypress('s',ModifierKeys::commandModifier);
+            result.addDefaultKeypress('s',ModifierKeys::commandModifier);
         break;
 
         case ePreviewCmdID:
             result.setInfo("Preview Window", String::empty, category, 0);
 			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != String::empty);
-//            result.addDefaultKeypress('z',ModifierKeys::commandModifier);
+            result.addDefaultKeypress('x',ModifierKeys::noModifiers);
         break;
     }
 }
@@ -153,12 +153,31 @@ MainContentComponent::getCommandInfo(const CommandID commandID, ApplicationComma
 ApplicationCommandTarget*
 MainContentComponent::getNextCommandTarget()
 {
-    return findFirstTargetParentComponent();
+    return nullptr;
 }
 
 bool
-MainContentComponent::perform(const InvocationInfo& /*info*/)
+MainContentComponent::perform(const InvocationInfo& info)
 {
+   switch( info.commandID )
+    {
+        case eAboutOpenCmdID:
+            openAboutDialog();
+        break;
+        
+        case eFileOpenCmdID:
+            openImageFile();
+        break;
+        
+        case eFileSaveAsCmdID:
+            saveImageFile();
+        break;
+        
+        case ePreviewCmdID:
+            openImagePreviewWindow();
+        break;
+    }
+
     return true;
 }
 
@@ -209,24 +228,6 @@ MainContentComponent::getMenuForIndex(int /*topLevelMenuIndex*/, const String& m
 void
 MainContentComponent::menuItemSelected(int menuItemID, int topLevelMenuIndex)
 {
-    switch( menuItemID )
-    {
-        case eAboutOpenCmdID:
-            openAboutDialog();
-        break;
-        
-        case eFileOpenCmdID:
-            openImageFile();
-        break;
-        
-        case eFileSaveAsCmdID:
-            saveImageFile();
-        break;
-        
-        case ePreviewCmdID:
-            openImagePreviewWindow();
-        break;
-    }
 }
 
 #if 0

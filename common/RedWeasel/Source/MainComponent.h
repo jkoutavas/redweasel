@@ -42,6 +42,9 @@ private: // MenuBarModel
 public: // Value::Listener
     void valueChanged(Value &value) override;
 
+public: // our stuff
+    ApplicationCommandManager& getApplicationCommandManager() { return appCommandManager; }
+    
 private: // our stuff
     void openAboutDialog();
     void openImageFile();

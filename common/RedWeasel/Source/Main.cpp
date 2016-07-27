@@ -79,7 +79,10 @@ public:
             setResizable(false, false);
 
             setUsingNativeTitleBar (true);
-            setContentOwned (new MainContentComponent, true);
+            MainContentComponent *mainContent = new MainContentComponent;
+            setContentOwned (mainContent, true);
+
+            addKeyListener (mainContent->getApplicationCommandManager().getKeyMappings());
 
             centreWithSize (getWidth(), getHeight());
             setVisible (true);
