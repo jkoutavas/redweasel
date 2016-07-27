@@ -490,9 +490,10 @@ void ImageEditorComponent::shiftYPositionForComponent(Component* c)
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ImageEditorComponent" componentName=""
-                 parentClasses="public Component, public Value::Listener" constructorParams=""
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="1030" initialHeight="515">
+                 parentClasses="public Component, public Timer, public Value::Listener"
+                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
+                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="1030"
+                 initialHeight="515">
   <METHODS>
     <METHOD name="keyPressed (const KeyPress&amp; key)"/>
   </METHODS>

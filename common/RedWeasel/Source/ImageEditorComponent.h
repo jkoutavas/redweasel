@@ -52,7 +52,7 @@ public:
 
     // Timer
     void timerCallback() override;
-    
+
     // Value::Listener
     void valueChanged(Value &value) override;
 
