@@ -96,7 +96,7 @@ void
 MainContentComponent::resized()
 {
 #if JUCE_WINDOWS
-	menuBar->setBounds(0, 0, getWidth(), 24);
+	menuBar->setBounds(0, 0, getWidth(), getLookAndFeel().getDefaultMenuBarHeight());
 #endif
 
     imageEditor.setSize(getWidth(),getHeight());

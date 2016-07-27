@@ -29,9 +29,6 @@ public:
         // This method is where you should put your application's initialisation code..
 
         mainWindow = new MainWindow (getApplicationName());
-        mainWindow->restoreWindowStateFromString(AppProperties::getInstance()->getValue("MainWindowPos"));
-        mainWindow->setResizable(true,true);
-        mainWindow->setResizeLimits(1030,515,32768,32768);
     }
 
     void shutdown() override
@@ -76,16 +73,21 @@ public:
                                                     Colours::lightgrey,
                                                     DocumentWindow::allButtons)
         {
-            setResizable(false, false);
-
+            setVisible (true);
             setUsingNativeTitleBar (true);
             MainContentComponent *mainContent = new MainContentComponent;
             setContentOwned (mainContent, true);
 
             addKeyListener (mainContent->getApplicationCommandManager().getKeyMappings());
 
-            centreWithSize (getWidth(), getHeight());
-            setVisible (true);
+			restoreWindowStateFromString(AppProperties::getInstance()->getValue("MainWindowPos"));
+			setResizable(true, true);
+            int height = mainContent->getHeight() + 24;
+#if JUCE_WINDOWS
+            height += 24;
+#endif
+			setResizeLimits(mainContent->getWidth(), height, 32768, 32768);
+			centreWithSize (mainContent->getWidth(), mainContent->getHeight());
         }
 
         void closeButtonPressed() override

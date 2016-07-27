@@ -29,7 +29,11 @@
 #include "ImageEditorModel.h"
 
 static const double kDefaultWidth = 1030.0;
+#if JUCE_MAC
 static const double kDefaultHeight = 515.0;
+#else
+static const double kDefaultHeight = 515.0+24.0; 
+#endif
 
 //[/MiscUserDefs]
 
