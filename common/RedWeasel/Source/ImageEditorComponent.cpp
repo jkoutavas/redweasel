@@ -113,7 +113,7 @@ ImageEditorComponent::ImageEditorComponent ()
     helpLabel->setFont (Font (14.00f, Font::italic));
     helpLabel->setJustificationType (Justification::topLeft);
     helpLabel->setEditable (false, false, false);
-    helpLabel->setColour (Label::textColourId, Colours::lightblue);
+    helpLabel->setColour (Label::textColourId, Colour (0xff067397));
     helpLabel->setColour (TextEditor::textColourId, Colours::black);
     helpLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
@@ -125,7 +125,7 @@ ImageEditorComponent::ImageEditorComponent ()
     helpLabel2->setFont (Font (14.00f, Font::italic));
     helpLabel2->setJustificationType (Justification::topLeft);
     helpLabel2->setEditable (false, false, false);
-    helpLabel2->setColour (Label::textColourId, Colours::lightblue);
+    helpLabel2->setColour (Label::textColourId, Colour (0xff067397));
     helpLabel2->setColour (TextEditor::textColourId, Colours::black);
     helpLabel2->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
@@ -544,12 +544,12 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <LABEL name="helpLabel" id="907ddf53d86610ef" memberName="helpLabel"
-         virtualName="" explicitFocusOrder="0" pos="20 431 464 80" textCol="ffadd8e6"
+         virtualName="" explicitFocusOrder="0" pos="20 431 464 80" textCol="ff067397"
          edTextCol="ff000000" edBkgCol="0" labelText="When an image is loaded, these shortcut keys are available:&#10;&#10;    Left Arrow -- go to the previous image in the containing folder (if any)&#10;    Right Arrow -- go to the next image &#10;    's' -- save your current adjusted image &#10;"
          editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
          fontname="Default font" fontsize="14" bold="0" italic="1" justification="9"/>
   <LABEL name="helpLabel2" id="478e44124451318a" memberName="helpLabel2"
-         virtualName="" explicitFocusOrder="0" pos="520 431 488 59" textCol="ffadd8e6"
+         virtualName="" explicitFocusOrder="0" pos="520 431 488 59" textCol="ff067397"
          edTextCol="ff000000" edBkgCol="0" labelText="When you tap on one of the color % edit fields, these shortcut keys are available:&#10;&#10;    tab -- move to next color % edit field&#10;    shift-tab -- move to previous color % edit field"
          editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
          fontname="Default font" fontsize="14" bold="0" italic="1" justification="9"/>
