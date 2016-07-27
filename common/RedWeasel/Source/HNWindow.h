@@ -15,7 +15,9 @@ public:
     ~HNWindow();
 
 public:
-    virtual void closeButtonPressed();
+    void closeButtonPressed() override;
+
+    bool keyPressed (const KeyPress& key) override;
 
 private:
     Component           *host;
