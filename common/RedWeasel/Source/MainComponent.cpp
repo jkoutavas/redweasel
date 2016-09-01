@@ -161,10 +161,12 @@ MainContentComponent::perform(const InvocationInfo& info)
 {
    switch( info.commandID )
     {
+#if JUCE_WINDOWS
         case eAboutOpenCmdID:
             openAboutDialog();
         break;
-        
+#endif
+
         case eFileOpenCmdID:
             openImageFile();
         break;
@@ -226,8 +228,19 @@ MainContentComponent::getMenuForIndex(int /*topLevelMenuIndex*/, const String& m
 }
 
 void
-MainContentComponent::menuItemSelected(int menuItemID, int topLevelMenuIndex)
+MainContentComponent::menuItemSelected(int menuItemID, int /*topLevelMenuIndex*/)
 {
+    switch( menuItemID )
+    {
+#if JUCE_MAC
+        case eAboutOpenCmdID:
+            openAboutDialog();
+        break;
+#endif
+        
+        default:
+        break;
+    }
 }
 
 #if 0
