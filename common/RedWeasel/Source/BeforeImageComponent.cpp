@@ -58,25 +58,25 @@ BeforeImageComponent::isInterestedInFileDrag (const StringArray& files)
         return false;
     }
     
-    return ImageFileFormat::findImageFormatForFileExtension(files[0]);
+    return ImageFileFormat::findImageFormatForFileExtension(files[0]) != nullptr;
 }
 
 void
-BeforeImageComponent::fileDragEnter (const StringArray& files, int x, int y)
+BeforeImageComponent::fileDragEnter (const StringArray& /*files*/, int /*x*/, int /*y*/)
 {
     dragEntered = true;
     repaint();
 }
 
 void
-BeforeImageComponent::fileDragExit (const StringArray& files)
+BeforeImageComponent::fileDragExit (const StringArray& /*files*/)
 {
     dragEntered = false;
     repaint();
 }
 
 void
-BeforeImageComponent::filesDropped (const StringArray& files, int x, int y)
+BeforeImageComponent::filesDropped (const StringArray& files, int /*x*/, int /*y*/)
 {
     ImageEditorModel::getInstance()->beforeImageFullPathName = files[0];
     dragEntered = false;

@@ -52,7 +52,7 @@ AfterImageComponent::resized()
 }
 
 void
-AfterImageComponent::mouseDown(const MouseEvent& e)
+AfterImageComponent::mouseDown(const MouseEvent& /*e*/)
 {
     const File sourceFile(ImageEditorModel::getInstance()->beforeImageFullPathName.getValue());
     File tempDir(File::getSpecialLocation(File::tempDirectory));
@@ -70,7 +70,7 @@ AfterImageComponent::mouseDown(const MouseEvent& e)
 }
 
 void
-AfterImageComponent::mouseDrag(const MouseEvent& e)
+AfterImageComponent::mouseDrag(const MouseEvent& /*e*/)
 {
     StringArray filesArray;
     
@@ -79,7 +79,7 @@ AfterImageComponent::mouseDrag(const MouseEvent& e)
 }
 
 void
-AfterImageComponent::mouseUp(const MouseEvent& e)
+AfterImageComponent::mouseUp(const MouseEvent& /*e*/)
 {
     // the temp file is now likely copied-out to the file system. Delete it.
     if( tempSavedFile.exists() ) {
@@ -94,8 +94,8 @@ AfterImageComponent::mouseUp(const MouseEvent& e)
 #endif
 
 bool
-AfterImageComponent::shouldDropFilesWhenDraggedExternally (const DragAndDropTarget::SourceDetails& sourceDetails,
-                                                       StringArray& files, bool& canMoveFiles)
+AfterImageComponent::shouldDropFilesWhenDraggedExternally (const DragAndDropTarget::SourceDetails& /*sourceDetails*/,
+                                                       StringArray& /*files*/, bool& /*canMoveFiles*/)
 {
     return true;
 }
