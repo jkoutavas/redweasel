@@ -19,7 +19,7 @@ enum {
     eFileOpenCmdID,
     eFileSaveAsCmdID,
     ePreviewCmdID,
-    ePreviewClosedCmdID
+    ePreviewClosedCmdID,
 };
 
 static String aboutMenuItemTitle()
@@ -114,7 +114,10 @@ MainContentComponent::getAllCommands(Array<CommandID>& commands)
         eAboutOpenCmdID,
         eFileOpenCmdID,
         eFileSaveAsCmdID,
-        ePreviewCmdID
+        ePreviewCmdID,
+#if JUCE_WINDOWS
+        juce::StandardApplicationCommandIDs::quit
+#endif
 	};
 
     commands.addArray(ids, numElementsInArray(ids));
@@ -147,6 +150,13 @@ MainContentComponent::getCommandInfo(const CommandID commandID, ApplicationComma
 			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != String::empty);
             result.addDefaultKeypress('x',ModifierKeys::noModifiers);
         break;
+        
+#if JUCE_WINDOWS
+        case juce::StandardApplicationCommandIDs::quit:
+            result.setInfo("Quit", String::empty, category, 0);
+            result.addDefaultKeypress('q',ModifierKeys::commandModifier);
+        break;
+#endif
     }
 }
 
@@ -164,6 +174,10 @@ MainContentComponent::perform(const InvocationInfo& info)
 #if JUCE_WINDOWS
         case eAboutOpenCmdID:
             openAboutDialog();
+        break;
+        
+        case juce::StandardApplicationCommandIDs::quit:
+			JUCEApplication::quit();
         break;
 #endif
 
@@ -217,6 +231,10 @@ MainContentComponent::getMenuForIndex(int /*topLevelMenuIndex*/, const String& m
     {
         menu.addCommandItem(&appCommandManager, eFileOpenCmdID);
         menu.addCommandItem(&appCommandManager, eFileSaveAsCmdID);
+#if JUCE_WINDOWS
+        menu.addSeparator();
+        menu.addCommandItem(&appCommandManager, juce::StandardApplicationCommandIDs::quit);
+#endif
     }
 
     if( menuName == "View" )
