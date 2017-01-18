@@ -53,9 +53,9 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="jNxk5A" bigIcon="jNxk5A">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="RedWeasel"
-                       osxSDK="default" osxCompatibility="default" osxArchitecture="default"/>
+                       osxSDK="default" osxCompatibility="10.8 SDK" osxArchitecture="default"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="RedWeasel"
-                       osxSDK="default" osxCompatibility="default" osxArchitecture="default"/>
+                       osxSDK="default" osxCompatibility="10.8 SDK" osxArchitecture="default"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../juce/modules"/>
