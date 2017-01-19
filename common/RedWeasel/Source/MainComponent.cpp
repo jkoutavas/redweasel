@@ -307,7 +307,7 @@ MainContentComponent::openImageFile()
     FileChooser fc("Choose an image to adjust", folder, kImageWildcardPattern);
     if( fc.browseForFileToOpen() )
     {
-        File folder = fc.getResult().getParentDirectory();
+        folder = fc.getResult().getParentDirectory();
         AppProperties::getInstance()->setValue("lastOpenedFolder",folder.getFullPathName());
         ImageEditorModel::getInstance()->beforeImageFullPathName = fc.getResult().getFullPathName();
     }
@@ -338,13 +338,13 @@ MainContentComponent::openImagePreviewWindow()
         
         previewWindow->setSize(
             std::min(fullImage.getWidth(), area.getWidth()),
-            std::min((double)fullImage.getHeight(), area.getHeight()/aspectRatio));
+            std::min(fullImage.getHeight(), (int)(area.getHeight()/aspectRatio)));
         
         previewWindow->setResizeLimits(
             std::min(fullImage.getWidth(), area.getWidth()),
-            std::min((double)fullImage.getHeight(), area.getHeight()/aspectRatio),
+            std::min(fullImage.getHeight(), (int)(area.getHeight()/aspectRatio)),
             area.getWidth(),
-            area.getHeight()/aspectRatio);
+            (int)(area.getHeight()/aspectRatio));
     }
 }
 

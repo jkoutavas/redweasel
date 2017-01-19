@@ -16,8 +16,8 @@ HNWindow::HNWindow(const String title,
     
     if( !windowStateKey.isEmpty() )
     {
-        AppProperties *properties = AppProperties::getInstance();
-        restoreWindowStateFromString(properties->getValue(windowStateKey));
+        AppProperties *props = AppProperties::getInstance();
+        restoreWindowStateFromString(props->getValue(windowStateKey));
     }
     
     setVisible(true);
@@ -29,8 +29,8 @@ HNWindow::~HNWindow()
 {
     if( !windowStateKey.isEmpty() )
     {
-        AppProperties *properties = AppProperties::getInstance();
-        properties->setValue(windowStateKey, getWindowStateAsString());
+        AppProperties *props = AppProperties::getInstance();
+        props->setValue(windowStateKey, getWindowStateAsString());
     }
 }
 

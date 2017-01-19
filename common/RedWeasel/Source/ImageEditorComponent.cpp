@@ -28,11 +28,11 @@
 
 #include "ImageEditorModel.h"
 
-static const double kDefaultWidth = 1030.0;
+static const int kDefaultWidth = 1030;
 #if JUCE_MAC
-static const double kDefaultHeight = 515.0;
+static const int kDefaultHeight = 515;
 #else
-static const double kDefaultHeight = 515.0+24.0; 
+static const int kDefaultHeight = 515+24; 
 #endif
 
 //[/MiscUserDefs]
@@ -210,7 +210,7 @@ void ImageEditorComponent::paint (Graphics& g)
     if( helpLabel->isVisible() )
     {
         g.setColour(juce::Colours::lightgrey);
-        g.drawLine(0, helpLabel->getY()-8, getWidth(), helpLabel->getY()-8);
+        g.drawLine(0, (float)helpLabel->getY()-8, (float)getWidth(), (float)helpLabel->getY()-8);
     }
     //[/UserPaint]
 }
@@ -245,10 +245,10 @@ void ImageEditorComponent::resized()
     shiftYPositionForComponent(helpLabel);
     shiftXYPositionForComponent(helpLabel2);
     const double kWidthScale = (double)getWidth()/kDefaultWidth;
-    fileLabel->setBounds(fileLabel->getX(), fileLabel->getY(), fileLabel->getWidth()*kWidthScale, fileLabel->getHeight());
+    fileLabel->setBounds(fileLabel->getX(), fileLabel->getY(), (int)(fileLabel->getWidth()*kWidthScale), fileLabel->getHeight());
     const int bottom = redSlider->getY() - 30;
-    beforeImageView->setBounds (8, 12, 500*kWidthScale, bottom);
-    afterImageView->setBounds (520*kWidthScale, 12, 500*kWidthScale, bottom);
+    beforeImageView->setBounds (8, 12, (int)(500*kWidthScale), bottom);
+    afterImageView->setBounds ((int)(520*kWidthScale), 12, (int)(500*kWidthScale), bottom);
     saveMessageLabel->setTopLeftPosition(afterImageView->getX()+afterImageView->getWidth()/2-saveMessageLabel->getWidth()/2,afterImageView->getY()+afterImageView->getHeight()/2-saveMessageLabel->getHeight()/2);
     //[/UserResized]
 }
@@ -279,7 +279,7 @@ void ImageEditorComponent::sliderValueChanged (Slider* sliderThatWasMoved)
     else if (sliderThatWasMoved == fileSelector)
     {
         //[UserSliderCode_fileSelector] -- add your slider handling code here..
-        inputFileIndex = fileSelector->getValue() - 1;
+        inputFileIndex = (int)fileSelector->getValue() - 1;
         const File file = inputFiles[inputFileIndex];
         ImageEditorModel::getInstance()->beforeImageFullPathName = file.getFullPathName();
         //[/UserSliderCode_fileSelector]
@@ -358,9 +358,9 @@ ImageEditorComponent::valueChanged(Value &value)
 
 static uint8 adjust(uint8 color, double percent)
 {
-    const int result = color + 255 * percent;
+    const int result = (int)(color + 255 * percent);
 
-    return std::max(std::min(result,255),0);
+    return (uint8)std::max(std::min(result,255),0);
 }
 
 Image
@@ -397,7 +397,7 @@ ImageEditorComponent::adjustRGB(bool rescale)
             const double hScale = srcWidth / dstWidth;
             const double vScale = srcHeight / dstHeight;
             const double scale = std::max(hScale,vScale);
-            image = image.rescaled(srcWidth/scale, srcHeight/scale, Graphics::highResamplingQuality);
+            image = image.rescaled((int)(srcWidth/scale), (int)(srcHeight/scale), Graphics::highResamplingQuality);
         }
     }
     image.duplicateIfShared();

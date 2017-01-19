@@ -82,7 +82,7 @@ private:
     // keyboard focus
     class FileSelectorLookAndFeel : public LookAndFeel_V2
     {
-        Button* createSliderButton (Slider&, const bool isIncrement)
+        Button* createSliderButton (Slider&, bool isIncrement)
         {
             TextButton *button = new TextButton (isIncrement ? "+" : "-", String::empty);
 
