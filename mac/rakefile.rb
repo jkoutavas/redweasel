@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Rakefile for building RedWeasel. 
+# Rakefile for building RedWeasel on MacOS. 
 #
 # Usage 'rake [rev=<rev>] [sign=<identity>]' to build the app.
 #
