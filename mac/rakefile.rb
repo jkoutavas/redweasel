@@ -41,7 +41,6 @@ task :default => [:build_app]
 desc "build the application."
 task :build_app  => [:jucer] do
   puts "\nBuilding the release binary for the app v1.0.#{rev}"
-  testXcodeVersion
   build_result = %x{xcodebuild -project ../common/RedWeasel/Builds/MacOSX/RedWeasel.xcodeproj -configuration Release}
   if !build_result.match(/build succeeded/i)
     puts "build failed with:"
@@ -57,7 +56,6 @@ end
 desc "build Projucer"
 task :build_projucer do
   puts "\nBuilding Projucer"
-  testXcodeVersion
   build_result = %x{xcodebuild -project ../common/juce/extras/Projucer/Builds/MacOSX/Projucer.xcodeproj -configuration Release}
   if !build_result.match(/build succeeded/i)
     puts "build failed with:"
@@ -78,16 +76,4 @@ task :jucer => [:build_projucer] do
     sh "/usr/libexec/PlistBuddy -c \"Add LSArchitecturePriority:1 string \'x86_64\'\" Builds/MacOSX/Info.plist"
     rm "tmp.jucer"
   end
-end
-
-###############################################################################
-# utility functions
-###############################################################################
-class FailedXcodeTestException < Exception;end
-def testXcodeVersion
-  version = `xcodebuild -version`
-  if !version.match(/Xcode #{$requiredXCodeVersion}/)
-    puts "Expected Xcode version to be #{$requiredXCodeVersion}"
-    throw FailedXcodeTestException.new
-  end 
 end
