@@ -2,10 +2,10 @@
 #
 # Rakefile for building RedWeasel. 
 #
-# Usage 'rake [rev=<rev>] [nosign=nosign]' to build the app.
+# Usage 'rake [rev=<rev>] [sign=<identity>]' to build the app.
 #
 # The optional 'rev' parameter sets the third digit of the version string.
-# The optional 'nosign' parameter, when present, will disable code signing 
+# The optional 'sign' parameter, when present, will code sign the app with <identity>. Example: sign="Developer ID Application: Heynow Software"
 #
 # You have options to build individual components. Use 'rake -T' for a list of 
 # all available build tasks.
@@ -28,7 +28,7 @@ module Rake
 end
 
 rev = ENV["rev"] || 0
-nosign = ENV["nosign"] || ""
+sign = ENV["sign"] || ""
 
 class FailedBuildException < Exception;end
 
@@ -47,8 +47,8 @@ task :build_app  => [:jucer] do
     puts build_result.lines.grep(/error/i)
     throw FailedBuildException.new
   end
-  if nosign.length == 0
-    sh "codesign -s \"Heynow Software\" ../common/RedWeasel/Builds/MacOSX/build/Release/RedWeasel.app"
+  if sign.length > 0
+    sh "codesign -s \"#{sign}\" ../common/RedWeasel/Builds/MacOSX/build/Release/RedWeasel.app"
   end
   puts "RedWeasel.app is available at ../common/RedWeasel/Builds/MacOSX/build/Release/RedWeasel.app"
 end
