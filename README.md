@@ -12,7 +12,7 @@ Red Weasel, one of our family of weasel apps, lets you easily change the RGB val
 
 Red Weasel is both a macOS and Windows application. It is built using the JUCE (htttp://www.juce.com) application framework. 
 
-We use rake for generating the project files and building from the command line. Have a look at the output of 'cd {gt-root}/ReadWeasel/mac; rake -T' and 'cd {gt-root}/RedWeasel/win; rake -T' to see what all the build tasks are. Read the contents of the rakefile to learn about command line options such as "sign" and "rev".
+We use rake for generating the project files and building from the command line. Have a look at the output of 'cd {git-root}/ReadWeasel/mac; rake -T' and 'cd {git-root}/RedWeasel/win; rake -T' to see what all the build tasks are. Read the contents of the rakefile to learn about command line options such as "sign" and "rev".
 
 Once a full build has been made, the Xcode and VisualStudio projects will exist. You can then use one or both of the following IDEs to do editing and debugging of the application:
 
