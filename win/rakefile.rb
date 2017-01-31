@@ -1,11 +1,11 @@
 ###############################################################################
 #
-# Rakefile for building RedWeasel. 
+# Rakefile for building RedWeasel on Windows. 
 #
-# Usage 'rake [rev=<rev>] [nosign=nosign]' to build the app.
+# Usage 'rake [rev=<rev>] [sign=<signtool params>]' to build the app.
 #
 # The optional 'rev' parameter sets the third digit of the version string.
-# The optional 'nosign' parameter, when present, will disable code signing 
+# The optional 'sign' parameter, when present, will will code sign the app with <identity>. Example: sign="/f \"C:\Users\jay\My Documents\certs\heynow-codesign-pw.pfx\" /p=foo123bletch"
 #
 # You have options to build individual components. Use 'rake -T' for a list of 
 # all available build tasks.
@@ -28,7 +28,7 @@ module Rake
 end
 
 rev = ENV["rev"] || 0
-nosign = ENV["nosign"] || ""
+sign = ENV["sign"] || ""
 
 class FailedBuildException < Exception;end
 
@@ -42,9 +42,9 @@ desc "build the 32-bit standalone application"
 task :build_app => [:jucer] do
   sh "msbuild ..\\common\\RedWeasel\\Builds\\VisualStudio2015\\RedWeasel.sln /p:configuration=Release /p:platform=Win32 /v:quiet"
 
-  if nosign.length == 0
+  if sign.length > 0
     puts "Signing the app"
-    sh "SignTool sign /f install\\heynow-codesign-pw.pfx /p 1234 ..\\common\\RedWeasel\\Builds\\VisualStudio2015\\Release\\RedWeasel.exe"
+    sh "SignTool sign #{sign} ..\\common\\RedWeasel\\Builds\\VisualStudio2015\\Release\\RedWeasel.exe"
   end
 end
 desc "build Projucer"
