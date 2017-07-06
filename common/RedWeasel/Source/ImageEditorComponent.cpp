@@ -421,8 +421,9 @@ ImageEditorComponent::loadImageFile(const File& file)
 {
     const File folder = file.getParentDirectory();
     const bool newFolder = !inputFiles.size()|| inputFiles[0].getParentDirectory() != folder;
-    if( newFolder )
+     if( newFolder )
     {
+        // We're in a new folder, reset the inputFiles array and the fileSelector
         inputFiles.clear();
         int count = folder.findChildFiles(inputFiles, File::findFiles+File::ignoreHiddenFiles, false, kImageWildcardPattern);
         inputFileIndex = -1;
@@ -440,6 +441,23 @@ ImageEditorComponent::loadImageFile(const File& file)
         fileSelector->setValue(inputFileIndex+1, dontSendNotification);
         fileSelector->setTextValueSuffix(String::formatted(" of %d",count));
         fileSelector->setEnabled(count>0);
+    }
+    else
+    {
+        // Handle the case where the file being loaded is in the same folder as
+        // the one we've been working on: update just the fileSelector index to
+        // reflect the change.
+        // (this fixes issue #1: https://github.com/jkoutavas/redweasel/issues/1)
+        for( int i=0; i<inputFiles.size(); ++i )
+        {
+            const File& f = inputFiles[i];
+            if( f == file )
+            {
+                 fileSelector->setValue(i+1, dontSendNotification);
+                 fileSelector->setTextValueSuffix(String::formatted(" of %d",inputFiles.size()));
+                 break;
+            }
+        }
     }
 
     beforeImageView->setImage(ImageFileFormat::loadFrom(file));
