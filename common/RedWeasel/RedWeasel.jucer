@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="alaPwA" name="RedWeasel" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.heynow.RedWeasel" includeBinaryInAppConfig="1"
-              jucerVersion="4.2.1" companyName="Heynow Software" companyWebsite="www.heynow.com">
+              jucerVersion="5.3.2" companyName="Heynow Software" companyWebsite="www.heynow.com">
   <MAINGROUP id="DN0ffd" name="RedWeasel">
     <GROUP id="{B011C6AA-FEED-1723-A83A-86593296E8C9}" name="Source">
       <FILE id="Euo3nM" name="AboutComponent.cpp" compile="1" resource="0"
@@ -53,35 +53,34 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="jNxk5A" bigIcon="jNxk5A">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="RedWeasel"
-                       osxSDK="default" osxCompatibility="10.8 SDK" osxArchitecture="default"/>
+                       osxCompatibility="10.8 SDK"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="RedWeasel"
-                       osxSDK="default" osxCompatibility="10.8 SDK" osxArchitecture="default"/>
+                       osxCompatibility="10.8 SDK"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../juce/modules"/>
-        <MODULEPATH id="juce_events" path="../juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="../juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../juce/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../juce/modules"/>
+        <MODULEPATH id="juce_core" path=""/>
+        <MODULEPATH id="juce_events" path=""/>
+        <MODULEPATH id="juce_graphics" path=""/>
+        <MODULEPATH id="juce_data_structures" path=""/>
+        <MODULEPATH id="juce_gui_basics" path=""/>
+        <MODULEPATH id="juce_gui_extra" path=""/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="jNxk5A" bigIcon="jNxk5A">
+    <VS2017 targetFolder="Builds/VisualStudio2017" smallIcon="jNxk5A" bigIcon="jNxk5A"
+            extraCompilerFlags="/wd4100">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="RedWeasel"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="RedWeasel"/>
+        <CONFIGURATION isDebug="1" name="Debug" winArchitecture="Win32"/>
+        <CONFIGURATION isDebug="0" name="Release" winArchitecture="Win32"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../juce/modules"/>
-        <MODULEPATH id="juce_events" path="../juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="../juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../juce/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path=""/>
+        <MODULEPATH id="juce_gui_basics" path=""/>
+        <MODULEPATH id="juce_graphics" path=""/>
+        <MODULEPATH id="juce_events" path=""/>
+        <MODULEPATH id="juce_data_structures" path=""/>
+        <MODULEPATH id="juce_core" path=""/>
       </MODULEPATHS>
-    </VS2015>
+    </VS2017>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
@@ -92,4 +91,7 @@
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS/>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>

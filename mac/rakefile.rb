@@ -30,6 +30,11 @@ end
 rev = ENV["rev"] || 0
 sign = ENV["sign"] || ""
 
+projucer = File.expand_path("~/JUCE/Projucer.app/Contents/MacOS/Projucer")
+if !File.exists?(projucer)
+  projucer = File.expand_path("~/JUCE/extras/Projucer/Builds/MacOSX/build/Release/Projucer.app/Contents/MacOS/Projucer")
+end
+
 class FailedBuildException < Exception;end
 
 ###############################################################################
@@ -56,7 +61,7 @@ end
 desc "build Projucer"
 task :build_projucer do
   puts "\nBuilding Projucer"
-  build_result = %x{xcodebuild -project ../common/juce/extras/Projucer/Builds/MacOSX/Projucer.xcodeproj -configuration Release}
+  build_result = %x{xcodebuild -project ~/JUCE/extras/Projucer/Builds/MacOSX/Projucer.xcodeproj -configuration Release}
   if !build_result.match(/build succeeded/i)
     puts "build failed with:"
     puts build_result.lines.grep(/error/i)
@@ -65,12 +70,12 @@ task :build_projucer do
 end
 
 desc "make the IDE projects for the application"
-task :jucer => [:build_projucer] do
+task :jucer do
   puts "\nMaking the projects for the application."
   Dir.chdir "../common/RedWeasel/" do
     rm_rf "Builds"
     sh "/usr/local/bin/xml ed -u \"JUCERPROJECT/@version\" -v \"1.0.#{rev}\" RedWeasel.jucer > tmp.jucer"
-    sh "../juce/extras/Projucer/Builds/MacOSX/build/Release/Projucer.app/Contents/MacOS/Projucer --resave tmp.jucer"
+    sh "#{projucer} --resave tmp.jucer"
     sh "/usr/libexec/PlistBuddy -c \"Add LSArchitecturePriority array\" Builds/MacOSX/Info.plist"
     sh "/usr/libexec/PlistBuddy -c \"Add LSArchitecturePriority:0 string \'i386\'\" Builds/MacOSX/Info.plist"
     sh "/usr/libexec/PlistBuddy -c \"Add LSArchitecturePriority:1 string \'x86_64\'\" Builds/MacOSX/Info.plist"

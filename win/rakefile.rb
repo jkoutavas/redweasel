@@ -30,6 +30,11 @@ end
 rev = ENV["rev"] || 0
 sign = ENV["sign"] || ""
 
+projucer = "C:\\JUCE\\Projucer.exe"
+if !File.exists?(projucer)
+  projucer = "c:\\JUCE\\extras\\Projucer\\Builds\\VisualStudio2017\\x64\\Release\\App\\Projucer.exe"
+end
+
 class FailedBuildException < Exception;end
 
 ###############################################################################
@@ -40,26 +45,26 @@ task :default => [:build_app]
 
 desc "build the 32-bit standalone application"
 task :build_app => [:jucer] do
-  sh "msbuild ..\\common\\RedWeasel\\Builds\\VisualStudio2015\\RedWeasel.sln /p:configuration=Release /p:platform=Win32 /v:quiet"
+  sh "msbuild ..\\common\\RedWeasel\\Builds\\VisualStudio2017\\RedWeasel.sln /p:configuration=Release /p:platform=Win32 /v:quiet"
 
   if sign.length > 0
     puts "Signing the app"
-    sh "SignTool sign #{sign} ..\\common\\RedWeasel\\Builds\\VisualStudio2015\\Release\\RedWeasel.exe"
+    sh "SignTool sign #{sign} ..\\common\\RedWeasel\\Builds\\VisualStudio2017\\Release\\RedWeasel.exe"
   end
 end
 desc "build Projucer"
 task :build_projucer do
   puts "Building Projucer"
-  sh "msbuild \"..\\common\\juce\\extras\\Projucer\\Builds\\VisualStudio2015\\Projucer.sln\" /p:configuration=Release /v:quiet"
+  sh "msbuild \"C:\\JUCE\\extras\\Projucer\\Builds\\VisualStudio2017\\Projucer.sln\" /p:configuration=Release /v:quiet"
 end
 
 desc "make the IDE project for the application"
-task :jucer => [:build_projucer] do
-  puts "Generating the app's VS2015 projects"
+task :jucer do
+  puts "Generating the app's VS2017 projects"
   Dir.chdir "..\\common\\RedWeasel" do
     rm_rf "Builds"
     sh "xml ed -u \"JUCERPROJECT/@version\" -v 1.0.#{rev} RedWeasel.jucer > tmp.jucer"
-    sh "\"..\\juce\\extras\\Projucer\\Builds\\VisualStudio2015\\x64\\Release\\Projucer.exe\" --resave tmp.jucer"
+    sh "#{projucer} --resave tmp.jucer"
     rm "tmp.jucer"
   end
 end

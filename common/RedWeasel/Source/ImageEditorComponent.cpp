@@ -48,6 +48,7 @@ ImageEditorComponent::ImageEditorComponent ()
     redSlider->setRange (-50, 50, 1);
     redSlider->setSliderStyle (Slider::LinearHorizontal);
     redSlider->setTextBoxStyle (Slider::TextBoxLeft, false, 30, 20);
+    redSlider->setColour(Slider::textBoxTextColourId, Colours::black);
     redSlider->addListener (this);
 
     addAndMakeVisible (greenSlider = new Slider ("greenSlider"));
@@ -55,6 +56,7 @@ ImageEditorComponent::ImageEditorComponent ()
     greenSlider->setRange (-50, 50, 1);
     greenSlider->setSliderStyle (Slider::LinearHorizontal);
     greenSlider->setTextBoxStyle (Slider::TextBoxLeft, false, 30, 20);
+    greenSlider->setColour(Slider::textBoxTextColourId, Colours::black);
     greenSlider->addListener (this);
 
     addAndMakeVisible (blueSlider = new Slider ("blueSlider"));
@@ -62,6 +64,7 @@ ImageEditorComponent::ImageEditorComponent ()
     blueSlider->setRange (-50, 50, 1);
     blueSlider->setSliderStyle (Slider::LinearHorizontal);
     blueSlider->setTextBoxStyle (Slider::TextBoxLeft, false, 30, 20);
+    blueSlider->setColour(Slider::textBoxTextColourId, Colours::black);
     blueSlider->addListener (this);
 
     addAndMakeVisible (beforeImageView = new BeforeImageComponent());
@@ -103,7 +106,7 @@ ImageEditorComponent::ImageEditorComponent ()
     fileLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (fileSelector = new Slider ("fileSelector"));
-    fileSelector->setRange (0, 0, 1);
+    fileSelector->setRange (0, 1, 1);
     fileSelector->setSliderStyle (Slider::IncDecButtons);
     fileSelector->setTextBoxStyle (Slider::TextBoxLeft, true, 80, 20);
     fileSelector->addListener (this);
@@ -374,7 +377,7 @@ ImageEditorComponent::adjustRGB(bool rescale)
     blueSlider->setEnabled(haveImage);
 
     if( !haveImage ) {
-        return Image::null;
+        return Image();
     }
 
     // values are from -50 to 50 with 0 being normal

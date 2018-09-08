@@ -40,7 +40,7 @@
 class ImageEditorComponent  : public Component,
                               public Timer,
                               public Value::Listener,
-                              public SliderListener
+                              public Slider::Listener
 {
 public:
     //==============================================================================
@@ -84,7 +84,7 @@ private:
     {
         Button* createSliderButton (Slider&, bool isIncrement)
         {
-            TextButton *button = new TextButton (isIncrement ? "+" : "-", String::empty);
+            TextButton *button = new TextButton (isIncrement ? "+" : "-", "");
 
             button->setWantsKeyboardFocus(false); // we overrode look and feel to get this
 

@@ -52,6 +52,9 @@ MainContentComponent::MainContentComponent()
     : previewComponent(nullptr)
     , previewWindow(nullptr)
 {
+    auto& lf = dynamic_cast<LookAndFeel_V4&>(getLookAndFeel());
+    lf.setColourScheme(LookAndFeel_V4::getLightColourScheme());
+
     appCommandManager.registerAllCommandsForTarget(this);
     setApplicationCommandManagerToWatch(&appCommandManager);
     appCommandManager.setFirstCommandTarget(this);
@@ -73,13 +76,13 @@ MainContentComponent::MainContentComponent()
 
     int height = 515;
 #if JUCE_WINDOWS
-    height += getLookAndFeel().getDefaultMenuBarHeight();
+    height += lf.getDefaultMenuBarHeight();
 #endif
 
     setSize(1030, height);
 
 #if JUCE_WINDOWS
-	imageEditor.setTopLeftPosition(imageEditor.getX(), imageEditor.getY() + getLookAndFeel().getDefaultMenuBarHeight());
+	imageEditor.setTopLeftPosition(imageEditor.getX(), imageEditor.getY() + lf.getDefaultMenuBarHeight());
 #endif
 }
 
@@ -152,29 +155,29 @@ MainContentComponent::getCommandInfo(const CommandID commandID, ApplicationComma
     switch( commandID )
     {
 		case eAboutOpenCmdID:
-			result.setInfo(aboutMenuItemTitle(), String::empty, category, 0);
+			result.setInfo(aboutMenuItemTitle(), "", category, 0);
 		break;
         
         case eFileOpenCmdID:
-            result.setInfo("Open...", String::empty, category, 0);
+            result.setInfo("Open...", "", category, 0);
             result.addDefaultKeypress('o',ModifierKeys::commandModifier);
         break;
         
         case eFileSaveAsCmdID:
-            result.setInfo("Save As...", String::empty, category, 0);
-			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != String::empty);
+            result.setInfo("Save As...", "", category, 0);
+			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != "");
             result.addDefaultKeypress('s',ModifierKeys::commandModifier);
         break;
 
         case ePreviewCmdID:
-            result.setInfo("Preview Window", String::empty, category, 0);
-			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != String::empty);
+            result.setInfo("Preview Window", "", category, 0);
+			result.setActive(ImageEditorModel::getInstance()->beforeImageFullPathName != "");
             result.addDefaultKeypress('x',ModifierKeys::noModifiers);
         break;
         
 #if JUCE_WINDOWS
         case juce::StandardApplicationCommandIDs::quit:
-            result.setInfo("Quit", String::empty, category, 0);
+            result.setInfo("Quit", "", category, 0);
             result.addDefaultKeypress('q',ModifierKeys::commandModifier);
         break;
 #endif
@@ -269,17 +272,17 @@ MainContentComponent::getMenuForIndex(int /*topLevelMenuIndex*/, const String& m
 void
 MainContentComponent::menuItemSelected(int menuItemID, int /*topLevelMenuIndex*/)
 {
+#if JUCE_MAC
     switch( menuItemID )
     {
-#if JUCE_MAC
         case eAboutOpenCmdID:
             openAboutDialog();
         break;
-#endif
-        
+
         default:
         break;
     }
+#endif
 }
 
 #if 0

@@ -1,4 +1,4 @@
-Last updated 31-Jan-2017
+Last updated 7-September-2018
 
 # Introduction
 
@@ -26,7 +26,14 @@ to see what all the build tasks are. Read the contents of the rakefile to learn 
 
 Once a full build has been made, the Xcode and VisualStudio projects will exist. You can then use one or both of the following IDEs to do editing and debugging of the application:
 
+## macOS build prerequisites
+
 You'll need XCode 8 or later to build on macOS.
 
-You'll need Virtual Studio 2015 or later to build on Windows.
+Download the .zip of JUCE v5.3.2 from https://github.com/WeAreROLI/JUCE/releases/tag/5.3.2. Unpack the zip and place it at `~/JUCE`
 
+## Windows build prerequisites
+
+You'll need Virtual Studio 2017 to build on Windows.
+
+Download the .zip of JUCE v5.3.2 from https://github.com/WeAreROLI/JUCE/releases/tag/5.3.2. Unpack the zip and place it at `C:\JUCE`

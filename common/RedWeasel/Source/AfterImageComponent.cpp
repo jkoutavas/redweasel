@@ -76,7 +76,7 @@ AfterImageComponent::mouseDown(const MouseEvent& /*e*/)
     const File sourceFile(ImageEditorModel::getInstance()->beforeImageFullPathName.getValue());
     File tempDir(File::getSpecialLocation(File::tempDirectory));
     String filename = tempDir.getFullPathName()
-        + File::separatorString
+        + File::getSeparatorString()
         + ImageEditorModel::getInstance()->formSaveFileName();
     
     tempSavedFile = File(filename);
@@ -105,7 +105,7 @@ AfterImageComponent::mouseUp(const MouseEvent& /*e*/)
         tempSavedFile.deleteFile();
     }
     
-    tempSavedFile = juce::var::null;
+    tempSavedFile = juce::var();
 }
 
 #if 0
